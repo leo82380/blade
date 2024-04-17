@@ -13,34 +13,34 @@ MonoBehaviour:
   m_Name: PlayerStat
   m_EditorClassIdentifier: 
   strength:
-    _baseValue: 0
+    _baseValue: 5
     modifiers: 
     isPercent: 0
   agility:
-    _baseValue: 0
+    _baseValue: 5
     modifiers: 
     isPercent: 0
   damage:
-    _baseValue: 0
+    _baseValue: 15
     modifiers: 
     isPercent: 0
   maxHealth:
-    _baseValue: 0
+    _baseValue: 200
     modifiers: 
     isPercent: 0
   criticalChance:
-    _baseValue: 0
+    _baseValue: 500
     modifiers: 
-    isPercent: 0
+    isPercent: 1
   criticalDamage:
-    _baseValue: 0
+    _baseValue: 15000
     modifiers: 
-    isPercent: 0
+    isPercent: 1
   armor:
-    _baseValue: 0
+    _baseValue: 5
     modifiers: 
     isPercent: 0
   evasion:
-    _baseValue: 0
+    _baseValue: 100
     modifiers: 
-    isPercent: 0
+    isPercent: 1
