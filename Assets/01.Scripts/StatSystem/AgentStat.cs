@@ -59,4 +59,9 @@ public class AgentStat : ScriptableObject
 
     private string LowerFirstChar(string input) 
         => $"{char.ToLower(input[0])}{input.Substring(1)}";
+
+    public int GetDamage()
+    {
+        return damage.GetValue() + strength.GetValue() * 2;
+    }
 }
