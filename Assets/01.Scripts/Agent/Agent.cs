@@ -12,6 +12,8 @@ public abstract class Agent : MonoBehaviour
     public Health HealthCompo { get; protected set; }
     #endregion
     
+    [field:SerializeField] public AgentStat Stat {get; protected set;}
+    
     public bool CanStateChangeable { get; protected set; } = true;
     public bool isDead;
 
@@ -30,6 +32,10 @@ public abstract class Agent : MonoBehaviour
             DamageCasterCompo = damageTrm.GetComponent<DamageCaster>();
             DamageCasterCompo.InitCaster(this);
         }
+
+        Stat = Instantiate(Stat); // 자기 자신 복제본
+        Stat.SetOwner(this);
+        
         HealthCompo = GetComponent<Health>();
         HealthCompo.Initialize(this);
     }
