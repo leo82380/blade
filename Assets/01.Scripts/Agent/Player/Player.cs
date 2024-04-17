@@ -13,7 +13,8 @@ public enum PlayerStateEnum
     Run,
     Fall,
     Attack,
-    Rolling
+    Rolling,
+    Dead
 }
 
 public class Player : Agent
@@ -84,6 +85,7 @@ public class Player : Agent
     public override void SetDead()
     {
         // 지금은 아무것도 안함
+        StateMachine.ChangeState(PlayerStateEnum.Dead);
     }
     
 }
