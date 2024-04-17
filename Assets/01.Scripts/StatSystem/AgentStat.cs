@@ -71,5 +71,10 @@ public class AgentStat : ScriptableObject
         return IsHitPercent(evasion.GetValue() + agility.GetValue() * 10);
     }
 
+    public int ArmoredDamage(int incomingDamage)
+    {
+        return Mathf.Max(1, incomingDamage - Mathf.FloorToInt(armor.GetValue() * 0.5f));
+    }
+
     protected bool IsHitPercent(int statValue) => Random.Range(1, 10000) < statValue;
 }
