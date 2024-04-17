@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
+using ObjectPooling;
 using UnityEngine;
 
 public class PoolingTableSO : ScriptableObject
 {
-    public List<PoolingTableSO> datas;
+    public List<PoolingItemSO> datas = new List<PoolingItemSO>();
 }

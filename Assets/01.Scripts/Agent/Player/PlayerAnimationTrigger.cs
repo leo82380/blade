@@ -12,4 +12,9 @@ public class PlayerAnimationTrigger : MonoBehaviour
     {
         _player.PlayBladeVFX();
     }
+
+    private void DamageCast()
+    {
+        _player.Attack();
+    }
 }

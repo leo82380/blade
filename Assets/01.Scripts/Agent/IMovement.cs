@@ -8,4 +8,6 @@ public interface IMovement
     public void SetMovement(Vector3 movement, bool isRotation = true);
     public void StopImmediately();
     public void SetDestination(Vector3 destination);
+
+    public void GetKnockback(Vector3 force);
 }

@@ -78,4 +78,9 @@ public class AgentMovement : MonoBehaviour, IMovement
     {
         // 플레이어는 안씀 (NavMesh기반)
     }
+
+    public void GetKnockback(Vector3 force)
+    {
+        // 현재는 넉백 구현 안함
+    }
 }

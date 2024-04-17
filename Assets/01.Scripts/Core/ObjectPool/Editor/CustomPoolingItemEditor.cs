@@ -16,6 +16,8 @@ public class CustomPoolingItemEditor : Editor
     
     private void OnEnable()
     {
+        GUIUtility.keyboardControl = 0;
+        StyleSetup();
         enumNameProp = serializedObject.FindProperty("enumName");
         poolingNameProp = serializedObject.FindProperty("poolingName");
         descriptionProp = serializedObject.FindProperty("description");
@@ -27,10 +29,9 @@ public class CustomPoolingItemEditor : Editor
     {
         if (textAreaStyle == null)
         {
-            textAreaStyle = new GUIStyle(EditorStyles.textArea)
-            {
-                wordWrap = true
-            };
+            textAreaStyle = new GUIStyle(EditorStyles.textArea);
+            textAreaStyle.wordWrap = true;
+            textAreaStyle.active.textColor = Color.white;
         }
     }
 

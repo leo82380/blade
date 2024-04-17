@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ObjectPooling
@@ -10,5 +11,17 @@ namespace ObjectPooling
         public string description;
         public int poolCount;
         public PoolableMono prefab;
+
+        private void OnValidate()
+        {
+            if (prefab != null)
+            {
+                if (enumName != prefab.type.ToString())
+                {
+                    prefab = null;
+                    Debug.LogWarning("Type missmatch!");
+                }
+            }
+        }
     }
 }

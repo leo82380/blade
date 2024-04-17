@@ -4,10 +4,12 @@ using UnityEngine;
 
 public abstract class Agent : MonoBehaviour
 {
-    #region 컴포넌트 리스트
+    #region Component list section
     public Animator AnimatorCompo { get; protected set; }
     public IMovement MovementCompo { get; protected set; }  
     public AgentVFX VFXCompo { get; protected set; }
+    public DamageCaster DamageCasterCompo { get; protected set; }
+    public Health HealthCompo { get; protected set; }
     #endregion
     
     public bool CanStateChangeable { get; protected set; } = true;
@@ -21,6 +23,15 @@ public abstract class Agent : MonoBehaviour
         MovementCompo.Initialize(this);
 
         VFXCompo = transform.Find("AgentVFX").GetComponent<AgentVFX>();
+        
+        Transform damageTrm = transform.Find("DamageCaster");
+        if (damageTrm != null)
+        {
+            DamageCasterCompo = damageTrm.GetComponent<DamageCaster>();
+            DamageCasterCompo.InitCaster(this);
+        }
+        HealthCompo = GetComponent<Health>();
+        HealthCompo.Initialize(this);
     }
     
     public Coroutine StartDelayCallback(float time, Action callback)

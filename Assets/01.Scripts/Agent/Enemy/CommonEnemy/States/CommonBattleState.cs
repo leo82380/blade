@@ -16,6 +16,12 @@ public class CommonBattleState : EnemyState<CommonStateEnum>
     public override void UpdateState()
     {
         base.UpdateState();
+
+        //
+        if (movementCompo.NavAgent.enabled)
+        {
+            _targetDestination = movementCompo.NavAgent.destination;
+        }
         
         float distance = (_targetDestination - _enemyBase.transform.position).magnitude;
         if (distance > 0.5f)

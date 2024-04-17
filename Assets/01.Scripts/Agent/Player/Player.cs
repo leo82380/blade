@@ -58,13 +58,6 @@ public class Player : Agent
             }
 
         }
-        
-        // StateMachine.AddState(
-        //     PlayerStateEnum.Idle, new PlayerIdleState(this, StateMachine, "Idle"));
-        // StateMachine.AddState(
-        //     PlayerStateEnum.Run, new PlayerRunState(this, StateMachine, "Run"));
-        // StateMachine.AddState(
-        //     PlayerStateEnum.Fall, new PlayerFallState(this, StateMachine, "Fall"));
     }
 
     protected void Start()
@@ -79,7 +72,7 @@ public class Player : Agent
 
     public override void Attack()
     {
-        
+        DamageCasterCompo.CastDamage();
     }
 
     public void PlayBladeVFX()
