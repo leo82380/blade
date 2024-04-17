@@ -76,7 +76,7 @@ public class AgentStat : ScriptableObject
         return Mathf.Max(1, incomingDamage - Mathf.FloorToInt(armor.GetValue() * 0.5f));
     }
 
-    public bool IsCritical(int incomingDamage)
+    public bool IsCritical(ref int incomingDamage)
     {
         if (IsHitPercent(criticalChance.GetValue()))
         {
