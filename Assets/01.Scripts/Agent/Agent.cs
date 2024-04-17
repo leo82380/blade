@@ -55,4 +55,6 @@ public abstract class Agent : MonoBehaviour
     {
         //여기서는 아무것도 안함
     }
+
+    public abstract void SetDead();
 }

@@ -75,8 +75,15 @@ public class Player : Agent
         DamageCasterCompo.CastDamage();
     }
 
+
     public void PlayBladeVFX()
     {
         PlayerVFXCompo.PlayBladeVFX(currentComboCounter);
     }
+    
+    public override void SetDead()
+    {
+        // 지금은 아무것도 안함
+    }
+    
 }

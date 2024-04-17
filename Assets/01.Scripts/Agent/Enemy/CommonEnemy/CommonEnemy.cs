@@ -9,7 +9,7 @@ public enum CommonStateEnum
     Idle,
     Battle,
     Attack,
-    //Dead
+    Dead
 }
 public class CommonEnemy : Enemy
 {
@@ -55,9 +55,16 @@ public class CommonEnemy : Enemy
     {
         //공격 로직
     }
-    
+
+
     public override void AnimationEndTrigger()
     {
         StateMachine.CurrentState.AnimationTrigger();
+    }
+    public override void SetDead()
+    {
+        StateMachine.ChangeState(CommonStateEnum.Dead, true);
+        isDead = true;
+        CanStateChangeable = false;
     }
 }
