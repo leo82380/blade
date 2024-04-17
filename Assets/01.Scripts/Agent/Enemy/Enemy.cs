@@ -20,6 +20,8 @@ public abstract class Enemy : Agent
     [HideInInspector] public float lastAttackTime;
     [HideInInspector] public Transform targetTrm;
     protected Collider[] _enemyCheckColliders;
+
+    public SkinnedMeshRenderer meshRenderer;
     
     protected override void Awake()
     {

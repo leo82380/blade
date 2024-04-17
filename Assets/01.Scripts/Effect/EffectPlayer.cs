@@ -6,8 +6,8 @@ using UnityEngine.VFX;
 
 public class EffectPlayer : PoolableMono
 {
-    [SerializeField] private List<ParticleSystem> _particles;
-    [SerializeField] private List<VisualEffect> _effects;
+    [SerializeField] protected List<ParticleSystem> _particles;
+    [SerializeField] protected List<VisualEffect> _effects;
 
     public void StartPlay(float time)
     {
