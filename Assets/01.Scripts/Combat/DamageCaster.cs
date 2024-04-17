@@ -29,7 +29,7 @@ public class DamageCaster : MonoBehaviour
             if (hit.collider.TryGetComponent(out IDamageable damageable))
             {
                 // 나중에 스탯에서 가져옴
-                int damage = 5;
+                int damage = _owner.Stat.GetDamage();
                 float knockbackPower = 3f;
                 damageable.ApplyDamage(damage, hit.point, hit.normal, knockbackPower, _owner);
             }
