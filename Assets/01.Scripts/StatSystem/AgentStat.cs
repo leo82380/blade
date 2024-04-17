@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [CreateAssetMenu(menuName = "SO/Stat")]
 public class AgentStat : ScriptableObject
@@ -64,4 +65,11 @@ public class AgentStat : ScriptableObject
     {
         return damage.GetValue() + strength.GetValue() * 2;
     }
+
+    public bool CanEvasion()
+    {
+        return IsHitPercent(evasion.GetValue() + agility.GetValue() * 10);
+    }
+
+    protected bool IsHitPercent(int statValue) => Random.Range(1, 10000) < statValue;
 }
