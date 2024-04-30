@@ -74,6 +74,10 @@ public class Player : Agent
         {
             SkillManager.Instance.GetSkill<CircleOrbSkill>().UseSkill();
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SkillManager.Instance.GetSkill<CircleOrbSkill>().UpgradeAddOrb();
+        }
     }
 
     public override void Attack()

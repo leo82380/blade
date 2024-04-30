@@ -1180,6 +1180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playTime: 1.5
+  _targetType: 0
 --- !u!114 &671194233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1211,6 +1212,7 @@ MonoBehaviour:
     m_Bits: 64
   _bloodColor: {r: 0, g: 0.097725384, b: 0.07123752, a: 1}
   _playTime: 6
+  _targetType: 0
 --- !u!1001 &740736001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1677,7 +1679,7 @@ MonoBehaviour:
     m_Bits: 128
   orbCooldown: 0.2
   damage: 2
-  knockbackPower: 1.5
+  knockbackPower: 0.5
   initOrbCount: 3
   spinTime: 3
   spinRadius: 1.7
