@@ -31,7 +31,8 @@ public class DamageCaster : MonoBehaviour
                 // 나중에 스탯에서 가져옴
                 int damage = _owner.Stat.GetDamage();
                 float knockbackPower = 3f;
-                damageable.ApplyDamage(damage, hit.point, hit.normal, knockbackPower, _owner);
+                damageable.ApplyDamage(damage, hit.point, hit.normal, 
+                    knockbackPower, _owner, DamageType.Melee);
             }
         }
         

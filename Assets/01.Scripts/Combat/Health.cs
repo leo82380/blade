@@ -16,7 +16,8 @@ public class Health : MonoBehaviour, IDamageable
         actionData = new ActionData();
         _currentHealth = _owner.Stat.maxHealth.GetValue();
     }
-    public void ApplyDamage(int damage, Vector3 hitPoint, Vector3 normal, float knockbackPower, Agent dealer)
+    public void ApplyDamage(int damage, Vector3 hitPoint, Vector3 normal, 
+        float knockbackPower, Agent dealer, DamageType damageType)
     {
         if (_owner.Stat.CanEvasion())
         {
@@ -26,6 +27,7 @@ public class Health : MonoBehaviour, IDamageable
         
         actionData.hitNormal = normal;
         actionData.hitPoint = hitPoint;
+        actionData.lastDamageType = damageType;
 
         if (knockbackPower > 0)
         {

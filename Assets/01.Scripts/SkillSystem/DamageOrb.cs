@@ -33,7 +33,7 @@ public class DamageOrb : MonoBehaviour
             _currentCooldown = _skill.orbCooldown;
             Vector3 normal = _parentTrm.position - transform.position;
             health.ApplyDamage(_skill.damage, transform.position, normal,
-                _skill.knockbackPower, _skill.player);
+                _skill.knockbackPower, _skill.player, DamageType.Projectile);
         }
     }
 }
