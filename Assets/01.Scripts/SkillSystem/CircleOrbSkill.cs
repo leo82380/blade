@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class CircleOrbSkill : Skill
@@ -21,6 +22,7 @@ public class CircleOrbSkill : Skill
     private List<DamageOrb> _orbList;
 
     private bool _skillUsing = false;
+    private bool _orbReduction = false;
 
     protected override void Start()
     {
@@ -70,16 +72,51 @@ public class CircleOrbSkill : Skill
 
     public override bool UseSkill()
     {
+        if (_skillUsing) return false;
         if (base.UseSkill() == false) return false;
         
+        currentSpinTime = 0;
+        _orbReduction = false;
         OrbExpansion();
         return true;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        if (_skillUsing == false) return;
+        
+        currentSpinTime += Time.deltaTime;
+        if (currentSpinTime >= spinTime && !_orbReduction)
+        {
+            _orbReduction = true;
+            OrbReduction();
+        }
+    }
+
     private void OrbExpansion()
     {
+        _skillUsing = true;
+        float duration = 0.5f;
+        float size = 1f;
         _orbParent.SetFollow(true);
-        StartSkill();
+
+        Sequence seq = DOTween.Sequence();
+
+        for(int i = 0; i < currentOrbCount; i++)
+        {
+            DamageOrb orb = _orbList[i];
+            Vector3 pos = _deltaPositionList[i];
+
+            orb.transform.localPosition = Vector3.zero;
+            orb.transform.localScale = Vector3.one * 0.1f;
+            orb.gameObject.SetActive(true);
+
+            seq.Join(orb.transform.DOLocalMove(pos, duration));
+            seq.Join(orb.transform.DOScale(Vector3.one * size, duration));
+        }
+
+        seq.OnComplete(() => StartSkill());
     }
 
     private void StartSkill()
@@ -89,6 +126,30 @@ public class CircleOrbSkill : Skill
 
     private void OrbReduction()
     {
+        // 0.4초간 리덕션
+        // 리덕션 후 스킬 종료
+        float duration = 0.4f;
+        _orbParent.SetRotate(false, 0);
         
+        Sequence seq = DOTween.Sequence();
+        for (int i = 0; i < currentOrbCount; i++)
+        {
+            DamageOrb orb = _orbList[i];
+            seq.Join(orb.transform.DOLocalMove(Vector3.zero, duration));
+            seq.Join(orb.transform.DOScale(Vector3.one * 0.1f, 0.4f));
+        }
+        
+        seq.OnComplete(() => EndSkill());
+    }
+
+    private void EndSkill()
+    {
+        _orbParent.SetFollow(false);
+        _skillUsing = false;
+        
+        for (int i = 0; i < currentOrbCount; i++)
+        {
+            _orbList[i].gameObject.SetActive(false);
+        }
     }
 }

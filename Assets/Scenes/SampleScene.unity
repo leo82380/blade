@@ -1675,15 +1675,16 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
-  orbCooldown: 0
-  damage: 0
-  knockbackPower: 0
+  orbCooldown: 0.2
+  damage: 2
+  knockbackPower: 1.5
   initOrbCount: 3
   spinTime: 3
   spinRadius: 1.7
   _orbParent: {fileID: 1177098557}
   _maxOrbCount: 10
-  _orbPrefab: {fileID: 0}
+  _orbPrefab: {fileID: 718178883808604025, guid: 67c023f6e8827f245b6fdaa20827d503,
+    type: 3}
   currentOrbCount: 0
   currentSpinTime: 0
 --- !u!1 &1177098555

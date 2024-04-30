@@ -26,6 +26,7 @@ public class DamageOrb : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (_currentCooldown > 0) return;
+        Debug.Log(other.name);
 
         if (other.TryGetComponent(out IDamageable health))
         {
