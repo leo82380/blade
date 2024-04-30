@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttackState : PlayerState
@@ -52,7 +50,8 @@ public class PlayerAttackState : PlayerState
 
     private void HandleRollingEvent()
     {
-        if (_player.MovementCompo.IsGround)
+        if (_player.MovementCompo.IsGround
+            && SkillManager.Instance.GetSkill<RollingSkill>().UseSkill())
         {
             _stateMachine.ChangeState(PlayerStateEnum.Rolling);
         }

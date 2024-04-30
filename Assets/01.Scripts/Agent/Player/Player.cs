@@ -69,6 +69,11 @@ public class Player : Agent
     protected void Update()
     {
         StateMachine.CurrentState.UpdateState();
+        
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            SkillManager.Instance.GetSkill<CircleOrbSkill>().UseSkill();
+        }
     }
 
     public override void Attack()

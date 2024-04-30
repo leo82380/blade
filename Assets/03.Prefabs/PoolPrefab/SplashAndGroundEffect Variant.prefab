@@ -101,17 +101,17 @@ PrefabInstance:
     - target: {fileID: 1839378750488680183, guid: fd9712177d76d1f4c8b855c07e0028ff,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.x
-      value: 0.03137255
+      value: 0.047937267
       objectReference: {fileID: 0}
     - target: {fileID: 1839378750488680183, guid: fd9712177d76d1f4c8b855c07e0028ff,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.y
-      value: 0.4901961
+      value: 0.74901974
       objectReference: {fileID: 0}
     - target: {fileID: 1839378750488680183, guid: fd9712177d76d1f4c8b855c07e0028ff,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.z
-      value: 0.3411765
+      value: 0.5213178
       objectReference: {fileID: 0}
     - target: {fileID: 1839378750488680183, guid: fd9712177d76d1f4c8b855c07e0028ff,
         type: 3}

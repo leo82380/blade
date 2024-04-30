@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using ObjectPooling;
 using UnityEngine;
 
@@ -14,17 +12,11 @@ public class PlaySplashEffectFeedback : Feedback
     {
         var effect = PoolManager.Instance.Pop(PoolingType.VFX_Splash) as SplashEffectPlayer;
         ActionData actionData = _owner.HealthCompo.actionData;
-        RaycastHit hit;
-        if (Physics.Raycast(actionData.hitPoint, Vector3.down, out hit, 10f, _whatIsGround))
+        effect.transform.position = actionData.hitPoint;
+        
+        if (Physics.Raycast(actionData.hitPoint, Vector3.down, out RaycastHit hit, 10f, _whatIsGround))
         {
-            effect.transform.position = hit.point;
-            _yDelta = transform.position.y - hit.point.y;
-            effect.SetCustomData(_bloodColor, -_yDelta);
-        }
-        else
-        {
-            effect.transform.position = actionData.hitPoint;
-            effect.SetCustomData(_bloodColor, -2f);
+            effect.SetCustomData(_bloodColor, -hit.distance);
         }
         effect.StartPlay(_playTime);
     }

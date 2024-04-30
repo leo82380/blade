@@ -22,4 +22,18 @@ public class PlayerManager : MonoSingleton<PlayerManager>
             return _playerTrm;
         }
     }
+
+    private Player _player;
+    public Player Player
+    {
+        get
+        {
+            if (_player == null)
+            {
+                _player = PlayerTrm.GetComponent<Player>();
+            }
+
+            return _player;
+        }
+    }
 }

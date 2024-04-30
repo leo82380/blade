@@ -24,7 +24,8 @@ public abstract class PlayerGroundState : PlayerState
     
     private void HandleRollingEvent()
     {
-        if (_player.MovementCompo.IsGround)
+        if (_player.MovementCompo.IsGround
+            && SkillManager.Instance.GetSkill<RollingSkill>().UseSkill())
         {
             _stateMachine.ChangeState(PlayerStateEnum.Rolling);
         }
