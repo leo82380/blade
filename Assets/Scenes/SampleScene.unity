@@ -1606,6 +1606,7 @@ GameObject:
   - component: {fileID: 1102037273}
   - component: {fileID: 1102037272}
   - component: {fileID: 1102037274}
+  - component: {fileID: 1102037275}
   m_Layer: 0
   m_Name: SkillManager
   m_TagString: Untagged
@@ -1689,6 +1690,37 @@ MonoBehaviour:
     type: 3}
   currentOrbCount: 0
   currentSpinTime: 0
+--- !u!114 &1102037275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102037270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe26b5e2049390e439bced26a9854be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillEnabled: 0
+  _cooldown: 0
+  player: {fileID: 0}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 0
+  damage: 0
+  knockBackPower: 0.5
+  checkRadius: 12
+  moveSpeed: 0
+  activeCooldown: 6
+  maxCount: 4
+  fireCooldown: 0
+  _deltas:
+  - {x: 1, y: 1, z: 0.5}
+  - {x: -1, y: 1, z: 0.5}
+  - {x: 1, y: 1, z: -0.5}
+  - {x: -1, y: 1, z: -0.5}
+  _prefab: {fileID: 0}
 --- !u!1 &1177098555
 GameObject:
   m_ObjectHideFlags: 0

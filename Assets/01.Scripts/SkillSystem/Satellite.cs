@@ -22,7 +22,6 @@ public class Satellite : MonoBehaviour
     private Transform _playerAddOnTrm;
     private Vector3 _offset;
     
-    private float _lastFireTime;
     private float _nextFireTime;
     private SatelliteState _state;
     private Collider[] _colliders;
@@ -37,7 +36,6 @@ public class Satellite : MonoBehaviour
         _playerAddOnTrm = skill.player.transform.Find("AddOnTrm");
         _offset = offset;
         
-        _lastFireTime = Time.time;
         _nextFireTime = 0;
 
         _state = SatelliteState.Hide;
