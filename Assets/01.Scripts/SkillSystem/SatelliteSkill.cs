@@ -40,7 +40,7 @@ public class SatelliteSkill : Skill
         return _currentCount < maxCount;
     }
 
-    private void UpgradeAddSatellite()
+    public void UpgradeAddSatellite()
     {
         if (_currentCount >= maxCount) return;
         
@@ -49,5 +49,35 @@ public class SatelliteSkill : Skill
         
         satellite.Initialize(this, _deltas[_currentCount]);
         _currentCount++;
+    }
+
+    public override bool UseSkill()
+    {
+        if (_isActive) return false;
+        if (base.UseSkill() == false) return false;
+        
+        _isActive = true;
+        _lastActiveTime = Time.time;
+
+        foreach (Satellite st in _list)
+        {
+            st.ShowProcess();
+        }
+        
+        return true;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (_isActive && _lastActiveTime + activeCooldown <= Time.time)
+        {
+            _isActive = false;
+            foreach (Satellite st in _list)
+            {
+                st.HideProcess();
+            }
+        }
     }
 }

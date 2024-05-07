@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using ObjectPooling;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -72,7 +73,7 @@ public class Satellite : MonoBehaviour
     private Vector3 GetRandomFollowPosition()
     {
         return _playerAddOnTrm.position + _offset
-                                        + UnityEngine.Random.insideUnitSphere * 0.8f;
+                                        + Random.insideUnitSphere * 0.8f;
     }
 
     private void Update()
@@ -108,17 +109,19 @@ public class Satellite : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(direction.normalized);
             
-            // 트레일 그리기
+            LaserTrail trail = PoolManager.Instance.Pop(PoolingType.VFX_Trail) as LaserTrail;
+            trail.DrawTrail(transform.position, hit.point, 0.1f);
 
             if (hit.collider.TryGetComponent(out IDamageable health))
             {
                 health.ApplyDamage(_skill.damage, hit.point, hit.normal,
                     _skill.knockBackPower, _skill.player, DamageType.Range);
 
-                yield return new WaitForSeconds(0.15f);
-                transform.rotation = Quaternion.identity;
             }
-        }
+        } 
+        yield return new WaitForSeconds(0.15f);
+        transform.rotation = Quaternion.identity;
+        _state = SatelliteState.Follow;
     }
 
     private bool CheckEnemy()

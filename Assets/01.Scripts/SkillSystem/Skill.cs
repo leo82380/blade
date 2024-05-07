@@ -8,6 +8,7 @@ public class Skill : MonoBehaviour
 {
     public bool skillEnabled = false;
     [SerializeField] protected float _cooldown;
+    [SerializeField] protected bool _isAutoSkill;
 
     [HideInInspector] public Player player;
     public event CooldownInfo CooldownEvent;
@@ -15,6 +16,15 @@ public class Skill : MonoBehaviour
     protected float _cooldownTimer;
     public LayerMask whatIsEnemy;
 
+    public void UnlockSkill()
+    {
+        if (skillEnabled) return;
+        skillEnabled = true;
+        if (_isAutoSkill)
+        {
+            SkillManager.Instance.AddEnableSkill(this);
+        }
+    }
     protected virtual void Start()
     {
         player = PlayerManager.Instance.Player;

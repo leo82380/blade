@@ -5,6 +5,7 @@ public enum DamageType
     Melee,
     Projectile,
     Range,
+    Bomb,
 }
 public interface IDamageable
 {

@@ -72,17 +72,26 @@ public class Player : Agent
         
         if (Input.GetKeyDown(KeyCode.O))
         {
-            SkillManager.Instance.GetSkill<CircleOrbSkill>().UseSkill();
+            SkillManager.Instance.GetSkill<CircleOrbSkill>().UnlockSkill();
+            SkillManager.Instance.GetSkill<SatelliteSkill>().UnlockSkill();
+            SkillManager.Instance.GetSkill<ThunderStrikeSkill>().UnlockSkill();
+            SkillManager.Instance.GetSkill<BombSkill>().UnlockSkill();
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SkillManager.Instance.GetSkill<CircleOrbSkill>().UpgradeAddOrb();
+            //SkillManager.Instance.GetSkill<ThunderStrikeSkill>().UpgradeThunderCount();
+            SkillManager.Instance.GetSkill<BombSkill>().UseSkill();
         }
     }
 
     public override void Attack()
     {
-        DamageCasterCompo.CastDamage();
+        bool success = DamageCasterCompo.CastDamage();
+
+        if (success && currentComboCounter == 2)
+        {
+            SkillManager.Instance.GetSkill<ThunderStrikeSkill>().UseSkill();
+        }
     }
 
 

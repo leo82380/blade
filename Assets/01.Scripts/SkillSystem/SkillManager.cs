@@ -8,18 +8,21 @@ public enum PlayerSkill
     None = 0,
     Rolling = 1,
     CircleOrb = 2,
-    //Satellite = 3,
-    //Thunder = 4,
+    Satellite = 3,
+    ThunderStrike = 4,
+    Bomb = 5,
     //니네가 한개 만들게 된다.
 }
 
 public class SkillManager : MonoSingleton<SkillManager>
 {
     private Dictionary<Type, Skill> _skills;
+    private List<Skill> _enableSkillList;
 
     private void Awake()
     {
         _skills = new Dictionary<Type, Skill>();
+        _enableSkillList = new List<Skill>();
 
         foreach(PlayerSkill skillEnum in Enum.GetValues(typeof(PlayerSkill)))
         {
@@ -28,6 +31,19 @@ public class SkillManager : MonoSingleton<SkillManager>
             Skill skillCompo = GetComponent($"{skillEnum.ToString()}Skill") as Skill;
             Type type = skillCompo.GetType();
             _skills.Add(type, skillCompo);
+        }
+    }
+    
+    public void AddEnableSkill(Skill skill)
+    {
+        _enableSkillList.Add(skill);
+    }
+
+    private void Update()
+    {
+        foreach (Skill skill in _enableSkillList)
+        {
+            skill.UseSkill();
         }
     }
 
