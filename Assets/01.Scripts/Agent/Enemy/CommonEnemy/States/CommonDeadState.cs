@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ObjectPooling;
 using UnityEngine;
 
 public class CommonDeadState : EnemyState<CommonStateEnum>
@@ -26,6 +27,24 @@ public class CommonDeadState : EnemyState<CommonStateEnum>
     {
         base.Enter();
         _enemyBase.gameObject.layer = _deadbodyLayer;
+
+        int gold = _enemyBase.DropTable.GetDropGold();
+        int exp = _enemyBase.DropTable.dropExp;
+        
+        PlayerManager.Instance.AddExp(exp);
+
+        Vector3 dropDirection = _enemyBase.HealthCompo.actionData.hitNormal * -1;
+
+        for (int i = 0; i < gold; i++)
+        {
+            Item coin = PoolManager.Instance.Pop(PoolingType.Item_Coin) as Item;
+            Vector3 realDir = Quaternion.Euler(0, Random.Range(-30f, 30f), 0) * dropDirection;
+            coin.SetItemData(_enemyBase.transform.position, realDir);
+        }
+
+
+        // 코인이 튀는 방향은 ActionData의 노말의 역벡터로 잡아주고
+        // 코인의 갯수만큼 for문을 생성하여 던저주면 됨
     }
 
     private IEnumerator StartDissolveCoroutine()

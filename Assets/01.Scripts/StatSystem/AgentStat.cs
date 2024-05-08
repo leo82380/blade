@@ -88,4 +88,14 @@ public class AgentStat : ScriptableObject
     }
 
     protected bool IsHitPercent(int statValue) => Random.Range(1, 10000) < statValue;
+    
+    public void AddModifier(StatType statType, int value)
+    {
+        _statDictionary[statType].AddModifier(value);
+    }
+    
+    public void RemoveModifier(StatType statType, int value)
+    {
+        _statDictionary[statType].RemoveModifier(value);
+    }
 }

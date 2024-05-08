@@ -6,6 +6,8 @@ public abstract class Enemy : Agent
     public float moveSpeed;
     public float battleTime;
     public bool isActive;
+
+    [field: SerializeField] public DropTableSO DropTable { get; private set; }
     
     protected float _defaultMoveSpeed;
 
