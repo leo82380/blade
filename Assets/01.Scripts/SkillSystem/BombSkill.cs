@@ -17,11 +17,11 @@ public class BombSkill : Skill
         return damage < maxDamage;
     }
     
-    public void UpgradeBombDamage()
+    public void UpgradeBombDamage(int value)
     {
         if (damage >= maxDamage) return;
         
-        damage += 2;
+        damage += value;
     }
     
     public override bool UseSkill()

@@ -72,15 +72,11 @@ public class Player : Agent
         
         if (Input.GetKeyDown(KeyCode.O))
         {
-            SkillManager.Instance.GetSkill<CircleOrbSkill>().UnlockSkill();
-            SkillManager.Instance.GetSkill<SatelliteSkill>().UnlockSkill();
-            SkillManager.Instance.GetSkill<ThunderStrikeSkill>().UnlockSkill();
-            SkillManager.Instance.GetSkill<BombSkill>().UnlockSkill();
+            UIManager.Instance.Open(WindowEnum.LevelUp);
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            //SkillManager.Instance.GetSkill<ThunderStrikeSkill>().UpgradeThunderCount();
-            SkillManager.Instance.GetSkill<BombSkill>().UseSkill();
+            UIManager.Instance.Close(WindowEnum.LevelUp);
         }
     }
 
