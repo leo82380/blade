@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Item/PowerUp/Effect/UnLockSkill")]
@@ -16,5 +17,8 @@ public class UnLockSkillEffectSO : PowerUpEffectSO
         skill.UnlockSkill();
     }
 
-    
+    private void OnValidate()
+    {
+        type = EffectType.SkillUnlock;
+    }
 }

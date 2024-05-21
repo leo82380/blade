@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -77,5 +79,80 @@ public class UpgradeSkillEffectSO : PowerUpEffectSO
         }
         return false;
     }
-    
+
+    private void OnEnable()
+    {
+        GetReflectionInfo();
+    }
+
+    private void GetReflectionInfo()
+    {
+        fieldList.Clear();
+        methodList.Clear();
+
+        if (targetSkill == 0) return; // 타겟스킬이 활성화 되어있지 않으면 리턴
+
+        Type t = Type.GetType($"{targetSkill}Skill");
+        FieldInfo[] fields = t.GetFields(BindingFlags.Instance | BindingFlags.Public);
+
+        foreach (FieldInfo f in fields)
+        {
+            if (f.FieldType == typeof(int) || f.FieldType == typeof(float))
+            {
+                fieldList.Add(f); // int, float 타입의 필드만 추가
+            }
+        }
+
+        MethodInfo[] methods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public);
+
+        methodCallParamArray = callParams.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => GetDataFromString(x)).ToArray();
+
+        foreach (MethodInfo m in methods)
+        {
+            if (m.Name.StartsWith("Upgrade"))
+                methodList.Add(m); // Upgrade로 시작하는 메소드만 추가
+        }
+        
+        if (methodList.Count > selectMethodIndex && selectMethodIndex >= 0)
+        {
+            MethodInfo selectedMethod = methodList[selectMethodIndex];
+            if (selectedMethod != null)
+            {
+                canUpgradeMethod = t.GetMethod($"Can{selectedMethod.Name}");
+            }
+            else
+            {
+                Debug.LogWarning($"There is no check method fot {selectedMethod.Name}");
+            }
+        }
+        else
+        {
+            selectMethodIndex = -1;
+        }
+        
+        type = EffectType.SkillUpgrade;
+    }
+
+    private object GetDataFromString(string strInput)
+    {
+        object data;
+        if (strInput.StartsWith("\""))
+            data = strInput.Trim('\"');
+        else if (bool.TryParse(strInput, out bool bTemp))
+            data = bTemp;
+        else if (int.TryParse(strInput, out int iTemp))
+            data = iTemp;
+        else if (float.TryParse(strInput, out float fTemp))
+            data = fTemp;
+        else
+            data = strInput;
+        
+        return data;
+    }
+
+    private void OnValidate()
+    {
+        GetReflectionInfo();
+    }
 }

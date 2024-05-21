@@ -9,9 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15a5c1f2571b13d4cb79fb7dc45988c8, type: 3}
-  m_Name: CircleOrbUnlock
+  m_Script: {fileID: 11500000, guid: 4e4b79f21243d1a429164e19df43c573, type: 3}
+  m_Name: UpgradeOrbCooltime
   m_EditorClassIdentifier: 
   code: 
-  type: 1
-  unLockSkill: 2
+  type: 2
+  targetSkill: 2
+  upgradeType: 1
+  isFloat: 0
+  floatValue: 0
+  intValue: 0
+  selectFieldIndex: -1
+  selectMethodIndex: 0
+  callParams: 

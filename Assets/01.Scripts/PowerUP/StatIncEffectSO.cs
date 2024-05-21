@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Item/PowerUp/Effect/StatInc")]
@@ -18,5 +16,8 @@ public class StatIncEffectSO : PowerUpEffectSO
         PlayerManager.Instance.Player.Stat.AddModifier(targetStat, increaseValue);
     }
 
-    
+    private void OnValidate()
+    {
+        type = EffectType.StatInc;
+    }
 }
