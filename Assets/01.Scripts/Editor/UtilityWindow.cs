@@ -31,6 +31,12 @@ public class UtilityWindow : EditorWindow
     #region 각 데이터 테이블 모음
     private readonly string _poolDirectory = "Assets/08.SO/ObjectPool";
     private PoolingTableSO _poolTable;
+    
+    private readonly string _powerUpDirectory = "Assets/08.SO/PowerUp";
+    private PowerUpListSO _powerUpTable;
+    
+    private readonly string _effectDirectory = "Assets/08.SO/PowerUp/Effects";
+    private PowerUpEffectListSO _effectTable;
     #endregion
     
     [MenuItem("Tools/Utility")]
@@ -74,21 +80,38 @@ public class UtilityWindow : EditorWindow
 
         if (_poolTable == null)
         {
-            _poolTable = AssetDatabase.LoadAssetAtPath<PoolingTableSO>
-                ($"{_poolDirectory}/table.asset");
-            if (_poolTable == null)
-            {
-                _poolTable = CreateInstance<PoolingTableSO>();
-                string fileName = AssetDatabase.GenerateUniqueAssetPath
-                    ($"{_poolDirectory}/table.asset");
-                
-                AssetDatabase.CreateAsset(_poolTable, fileName);
-                Debug.Log($"Create Pooling Table at {fileName}");
-            }
+            _poolTable = CreateAssetTable<PoolingTableSO>(_poolDirectory);
+        }
+        
+        if (_powerUpTable == null)
+        {
+            _powerUpTable = CreateAssetTable<PowerUpListSO>(_powerUpDirectory);
+        }
+        
+        if (_effectTable == null)
+        {
+            _effectTable = CreateAssetTable<PowerUpEffectListSO>(_effectDirectory);
         }
         
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+    }
+
+    private T CreateAssetTable<T>(string path) where T : ScriptableObject
+    {
+        T table = AssetDatabase.LoadAssetAtPath<T>
+            ($"{path}/table.asset");
+        if (table == null)
+        {
+            table = ScriptableObject.CreateInstance<T>();
+            string fileName = AssetDatabase.GenerateUniqueAssetPath
+                ($"{path}/table.asset");
+                
+            AssetDatabase.CreateAsset(table, fileName);
+            Debug.Log($"{typeof(T).Name} Table Create at {fileName}");
+        }
+
+        return table;
     }
 
     private void OnGUI()
