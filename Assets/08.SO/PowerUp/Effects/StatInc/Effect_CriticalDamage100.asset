@@ -9,16 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e4b79f21243d1a429164e19df43c573, type: 3}
-  m_Name: UpgradeOrbCooltime
+  m_Script: {fileID: 11500000, guid: 051136c12358a8a41b313e04410881b3, type: 3}
+  m_Name: Effect_CriticalDamage100
   m_EditorClassIdentifier: 
-  code: 
-  type: 2
-  targetSkill: 2
-  upgradeType: 1
-  isFloat: 0
-  floatValue: 0
-  intValue: 0
-  selectFieldIndex: -1
-  selectMethodIndex: 0
-  callParams: 
+  code: CriticalDamage100
+  type: 0
+  targetStat: 5
+  increaseValue: 100

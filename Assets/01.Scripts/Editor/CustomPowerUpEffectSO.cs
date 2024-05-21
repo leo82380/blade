@@ -9,6 +9,7 @@ public class CustomPowerUpEffectSO : Editor
 
     protected virtual void OnEnable()
     {
+        GUIUtility.keyboardControl = 0;
         codeProp = serializedObject.FindProperty("code");
         typeProp = serializedObject.FindProperty("type");
     }

@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using ObjectPooling;
 using UnityEditor;
 using UnityEngine;
+using System.Text;
+using System.IO;
+using System;
 using Object = UnityEngine.Object;
 
 public enum UtilType
@@ -129,7 +129,235 @@ public class UtilityWindow : EditorWindow
             case 0:
                 DrawPoolItems();
                 break;
+            case 1:
+                DrawPowerUpItems();
+                break;
+            case 2:
+                DrawEffectItems();
+                break;
         }
+    }
+    
+    private T GenerateEffectAsset<T>(string path) where T : PowerUpEffectSO
+    {
+        Guid guid = Guid.NewGuid();
+        T newData = CreateInstance<T>();
+        newData.code = guid.ToString();
+        AssetDatabase.CreateAsset(newData, $"{path}/Effect_{guid}.asset");
+        _effectTable.list.Add(newData);
+        EditorUtility.SetDirty(_effectTable);
+        AssetDatabase.SaveAssets();
+        
+        return newData;
+    }
+
+    private void DrawEffectItems()
+    {
+        // 스킬 증가, 스킬 언락, 스킬업그레이드
+        EditorGUILayout.BeginHorizontal();
+        {
+            if (GUILayout.Button("Stat inc"))
+            {
+                GenerateEffectAsset<StatIncEffectSO>($"{_effectDirectory}/StatInc");
+            }
+
+            if (GUILayout.Button("Skill Unlock"))
+            {
+                GenerateEffectAsset<UnLockSkillEffectSO>($"{_effectDirectory}/UnlockSkill");
+            }
+
+            if (GUILayout.Button("Skill Upgrade"))
+            {
+                GenerateEffectAsset<UpgradeSkillEffectSO>($"{_effectDirectory}/UpgradeSkill");
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.Width(300f));
+            {
+                EditorGUILayout.LabelField("Effect list");
+                EditorGUILayout.Space(3f);
+
+
+                scrollPositions[UtilType.Effect] = EditorGUILayout.BeginScrollView
+                (scrollPositions[UtilType.Effect], false, true,
+                    GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
+                {
+                    foreach (var so in _effectTable.list)
+                    {
+                        float labelWith = 220f;
+                        GUIStyle style = selectedItem[UtilType.Effect] == so
+                            ? _selectStyle
+                            : GUIStyle.none;
+
+                        // 한줄 그린다.
+                        EditorGUILayout.BeginHorizontal(style, GUILayout.Height(40f));
+                        {
+                            EditorGUILayout.LabelField(
+                                $"[{so.type}]", GUILayout.Width(60f), GUILayout.Height(40f));
+                            EditorGUILayout.LabelField(
+                                $"[{so.code}]", GUILayout.Width(labelWith), GUILayout.Height(40f));
+
+                            EditorGUILayout.BeginVertical();
+                            {
+                                EditorGUILayout.Space(10f);
+                                GUI.color = Color.red;
+                                if (GUILayout.Button("X", GUILayout.Width(20f)))
+                                {
+                                    _effectTable.list.Remove(so);
+                                    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(so));
+                                    EditorUtility.SetDirty(_effectTable);
+                                    AssetDatabase.SaveAssets();
+                                }
+
+                                GUI.color = Color.white;
+                            }
+                            EditorGUILayout.EndVertical();
+                            // End of Delete
+                        }
+                        EditorGUILayout.EndHorizontal();
+
+                        if (so == null)
+                            break;
+
+                        // 마지막으로 그린 사각형 정보를 알아옴
+                        Rect lastRect = GUILayoutUtility.GetLastRect();
+
+                        if (Event.current.type == EventType.MouseDown
+                            && lastRect.Contains(Event.current.mousePosition))
+                        {
+                            inspectorScroll = Vector2.zero;
+                            selectedItem[UtilType.Effect] = so;
+                            Event.current.Use();
+                        }
+                    }
+                }
+                EditorGUILayout.EndScrollView();
+            }
+            EditorGUILayout.EndVertical();
+            if (selectedItem[UtilType.Effect] != null)
+            {
+                inspectorScroll = EditorGUILayout.BeginScrollView(inspectorScroll);
+                {
+                    EditorGUILayout.Space(2f);
+                    Editor.CreateCachedEditor(
+                        selectedItem[UtilType.Effect], null, ref _cachedEditor);
+                        
+                    _cachedEditor.OnInspectorGUI();
+                }
+                EditorGUILayout.EndScrollView();
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+    }
+
+    private void DrawPowerUpItems()
+    {
+        EditorGUILayout.BeginHorizontal();
+        {
+            GUI.color = new Color(0.19f, 0.76f, 0.08f);
+            if(GUILayout.Button("New PowerUp Item"))
+            {
+                Guid guid = Guid.NewGuid();
+                PowerUpSO newData = CreateInstance<PowerUpSO>();
+                newData.code = guid.ToString();
+                AssetDatabase.CreateAsset(
+                    newData, $"{_powerUpDirectory}/PowerUp_{newData.code}.asset");
+                _powerUpTable.list.Add(newData);
+                
+                EditorUtility.SetDirty(_powerUpTable);
+                AssetDatabase.SaveAssets();
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+        GUI.color = Color.white;
+
+        EditorGUILayout.BeginHorizontal();
+        {
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.Width(300f));
+            {
+                EditorGUILayout.LabelField("PowerUp list");
+                EditorGUILayout.Space(3f);
+
+
+                scrollPositions[UtilType.PowerUp] = EditorGUILayout.BeginScrollView
+                (scrollPositions[UtilType.PowerUp], false, true,
+                    GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
+                {
+                    foreach (var so in _powerUpTable.list)
+                    {
+                        float labelWith = so.icon != null ? 200f : 240f;
+                        GUIStyle style = selectedItem[UtilType.PowerUp] == so
+                            ? _selectStyle
+                            : GUIStyle.none;
+
+                        // 한줄 그린다.
+                        EditorGUILayout.BeginHorizontal(style, GUILayout.Height(40f));
+                        {
+                            if (so.icon != null)
+                            {
+                                // 아이콘 그리기
+                                Texture2D previewTexture = AssetPreview.GetAssetPreview(so.icon);
+                                GUILayout.Label(previewTexture, GUILayout.Width(40f), GUILayout.Height(40f));
+                            }
+
+                            EditorGUILayout.LabelField(so.code, GUILayout.Width(labelWith), GUILayout.Height(40f));
+
+                            EditorGUILayout.BeginVertical();
+                            {
+                                EditorGUILayout.Space(10f);
+                                GUI.color = Color.red;
+                                if (GUILayout.Button("X", GUILayout.Width(20f)))
+                                {
+                                    _powerUpTable.list.Remove(so);
+                                    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(so));
+                                    EditorUtility.SetDirty(_powerUpTable);
+                                    AssetDatabase.SaveAssets();
+                                }
+
+                                GUI.color = Color.white;
+                            }
+                            EditorGUILayout.EndVertical();
+                            // End of Delete
+                        }
+                        EditorGUILayout.EndHorizontal();
+
+                        if (so == null)
+                            break;
+
+                        // 마지막으로 그린 사각형 정보를 알아옴
+                        Rect lastRect = GUILayoutUtility.GetLastRect();
+
+                        if (Event.current.type == EventType.MouseDown
+                            && lastRect.Contains(Event.current.mousePosition))
+                        {
+                            inspectorScroll = Vector2.zero;
+                            selectedItem[UtilType.PowerUp] = so;
+                            Event.current.Use();
+                        }
+                    }
+                }
+                EditorGUILayout.EndScrollView();
+            }
+            EditorGUILayout.EndVertical();
+            if (selectedItem[UtilType.PowerUp] != null)
+            {
+                inspectorScroll = EditorGUILayout.BeginScrollView(inspectorScroll);
+                {
+                    EditorGUILayout.Space(2f);
+                    Editor.CreateCachedEditor(
+                        selectedItem[UtilType.PowerUp], null, ref _cachedEditor);
+                        
+                    _cachedEditor.OnInspectorGUI();
+                }
+                EditorGUILayout.EndScrollView();
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+
+
     }
 
     private void DrawPoolItems()

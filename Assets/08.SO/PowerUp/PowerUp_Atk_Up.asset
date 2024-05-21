@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac9923a1dbc602a4ca77c1a6133a09d3, type: 3}
-  m_Name: PowerfulAttackPowerUp
+  m_Name: PowerUp_Atk_Up
   m_EditorClassIdentifier: 
-  code: AtkUp
+  code: Atk_Up
   shouldBeUnlock: 0
-  title: "\uAC15\uB825\uD55C \uACF5\uACA9"
-  description: "\uB370\uBBF8\uC9C0\uB97C 5 \uC62C\uB9AC\uACE0 \uD798 \uC2A4\uD0EF\uC744
-    3 \uC62C\uB824\uC90D\uB2C8\uB2E4"
-  icon: {fileID: 21300000, guid: cfd5a50d52fc63c48bed2e8e6d4b3b71, type: 3}
+  title: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+  description: "\uACF5\uACA9\uB825\uC744 5 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: 5d15dcfd545aaff4a934b945becf160d, type: 3}
   effectList:
-  - {fileID: 11400000, guid: c337bd7b497dbc247b9a1735ce8f619e, type: 2}
   - {fileID: 11400000, guid: 028bf4619a5d80f4cb687ddf7d9a59fb, type: 2}
