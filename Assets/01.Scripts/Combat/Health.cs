@@ -1,3 +1,4 @@
+using ObjectPooling;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,9 +20,14 @@ public class Health : MonoBehaviour, IDamageable
     public void ApplyDamage(int damage, Vector3 hitPoint, Vector3 normal, 
         float knockbackPower, Agent dealer, DamageType damageType)
     {
+        if (_owner.isDead) return;
+
+        Vector3 textPosition = hitPoint + new Vector3(0, 1f, 0);
+        var popUp = PoolManager.Instance.Pop(PoolingType.PopUpText) as PopUpText;
+        
         if (_owner.Stat.CanEvasion())
         {
-            Debug.Log("회피");
+            popUp.StartPopUp("Evasion!", textPosition, TextType.Message);
             return;
         }
         
@@ -41,6 +47,9 @@ public class Health : MonoBehaviour, IDamageable
             _currentHealth - damage, 0, _owner.Stat.maxHealth.GetValue());
         
         OnHitEvent?.Invoke();
+
+        popUp.StartPopUp(damage.ToString(), textPosition, 
+            actionData.isCritical ? TextType.Critical : TextType.Normal);
 
         if (_currentHealth <= 0)
         {

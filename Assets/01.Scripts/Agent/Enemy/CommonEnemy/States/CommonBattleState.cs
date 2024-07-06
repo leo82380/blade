@@ -59,6 +59,6 @@ public class CommonBattleState : EnemyState<CommonStateEnum>
     private void SetDestination(Vector3 position)
     {
         _targetDestination = position;
-        _enemyBase.MovementCompo.SetDestination(position);
+        _enemyBase.NavMoveCompo.SetDestination(position);
     }
 }

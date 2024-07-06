@@ -72,6 +72,8 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     {
         AgentStat playerStat = Player.Stat;
         levelUpStats.ForEach(modStat => playerStat.AddModifier(modStat.type, modStat.value));
+        
+        UIManager.Instance.Open(WindowEnum.LevelUp);
     }
 
     public void AddCoin(int value)

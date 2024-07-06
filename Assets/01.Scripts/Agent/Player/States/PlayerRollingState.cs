@@ -15,7 +15,7 @@ public class PlayerRollingState : PlayerState
 
         Vector3 movingDirection = GetMovingDirection();
         _player.transform.forward = movingDirection;
-        _player.MovementCompo.SetMovement(movingDirection * _player.dashSpeed);
+        _player.DirectMoveCompo.SetMovement(movingDirection * _player.dashSpeed);
     }
 
     private Vector3 GetMovingDirection()

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   code: Armor_Inc
   shouldBeUnlock: 0
-  title: 
-  description: 
-  icon: {fileID: 0}
+  title: "\uBC29\uC5B4\uB825 \uC99D\uAC00"
+  description: "\uBC29\uC5B4\uB825\uC744 3\uB9CC\uD07C \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: 3cc6bfb036d1ac14d926dd66e9914a6a, type: 3}
   effectList:
   - {fileID: 11400000, guid: ea0896070c25be04fb7d062a47a07afc, type: 2}

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AgentMovement : MonoBehaviour, IMovement
+public class AgentMovement : MonoBehaviour, IMovement ,IDirectMoveable
 {
     [SerializeField] private float gravity = -9.8f;
 
@@ -74,10 +74,10 @@ public class AgentMovement : MonoBehaviour, IMovement
         _velocity = Vector3.zero;
     }
 
-    public void SetDestination(Vector3 destination)
-    {
-        // 플레이어는 안씀 (NavMesh기반)
-    }
+    // public void SetDestination(Vector3 destination)
+    // {
+    //     // 플레이어는 안씀 (NavMesh기반)
+    // }
 
     public void GetKnockback(Vector3 force)
     {

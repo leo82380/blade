@@ -39,7 +39,7 @@ public class PlayerRunState : PlayerGroundState
     {
         base.UpdateState();
         Vector3 velocity = Quaternion.Euler(0, -45f, 0) * _movementDirection;
-        _player.MovementCompo.SetMovement(velocity * _player.moveSpeed);
+        _player.DirectMoveCompo.SetMovement(velocity * _player.moveSpeed);
     }
 
     

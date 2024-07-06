@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : MonoBehaviour, IMovement
+public class EnemyMovement : MonoBehaviour, IMovement, INavigationable
 {
     public Vector3 Velocity => _navAgent.velocity;
     public bool IsGround { get; }
@@ -48,10 +48,10 @@ public class EnemyMovement : MonoBehaviour, IMovement
         transform.rotation = Quaternion.LookRotation(toward);
     }
     
-    public void SetMovement(Vector3 movement, bool isRotation = true)
-    {
-        // 여기선 안씀
-    }
+    // public void SetMovement(Vector3 movement, bool isRotation = true)
+    // {
+    //     // 여기선 안씀
+    // }
 
     public void GetKnockback(Vector3 force)
     {
