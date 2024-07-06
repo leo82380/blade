@@ -19,6 +19,7 @@ public enum PlayerStateEnum
 
 public class Player : Agent
 {
+    public IDirectMoveable DirectMoveCompo { get; private set; }
     [Header("Setting Values")]
     public float moveSpeed = 8f;
     public float dashSpeed = 20f;
@@ -38,7 +39,7 @@ public class Player : Agent
     protected override void Awake()
     {
         base.Awake();
-
+        DirectMoveCompo = GetComponent<IDirectMoveable>();
         StateMachine = new PlayerStateMachine();
 
         foreach (PlayerStateEnum stateEnum in Enum.GetValues(typeof(PlayerStateEnum)))

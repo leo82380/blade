@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class Enemy : Agent
 {
+    public INavigationable NavMoveCompo { get; private set; }
     [Header("Common settings")] 
     public float moveSpeed;
     public float battleTime;
@@ -28,6 +29,7 @@ public abstract class Enemy : Agent
     protected override void Awake()
     {
         base.Awake();
+        NavMoveCompo = GetComponent<INavigationable>();
         _defaultMoveSpeed = moveSpeed;
         _enemyCheckColliders = new Collider[_maxCheckEnemy];
     }

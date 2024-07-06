@@ -21,7 +21,7 @@ public class PlayerFallState : PlayerState
     private void HandleMovementEvent(Vector3 movement)
     {
         Vector3 velocity = Quaternion.Euler(0, -45f, 0) * movement;
-        _player.MovementCompo.SetMovement(velocity * _player.moveSpeed * 0.5f);
+        _player.DirectMoveCompo.SetMovement(velocity * _player.moveSpeed * 0.5f);
     }
 
     

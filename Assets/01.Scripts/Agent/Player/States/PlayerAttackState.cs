@@ -38,7 +38,7 @@ public class PlayerAttackState : PlayerState
         
         float movePower = _player.attackMovement[_comboCounter];
         Vector3 movement = playerDirection * movePower;
-        _player.MovementCompo.SetMovement(movement);
+        _player.DirectMoveCompo.SetMovement(movement);
         
 
         float delayTime = 0.2f;
