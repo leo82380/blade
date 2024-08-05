@@ -16,7 +16,12 @@ public class Health : MonoBehaviour, IDamageable
     {
         _owner = agent;
         actionData = new ActionData();
-        _currentHealth = _owner.Stat.maxHealth.GetValue(); //ÃÖ´ëÃ¼·ÂÀ¸·Î ¼ÂÆÃ
+        _currentHealth = _owner.Stat.maxHealth.GetValue(); //ÃƒÃ–Â´Ã«ÃƒÂ¼Â·Ã‚Ã€Â¸Â·Ã Â¼Ã‚Ã†Ãƒ
+    }
+    
+    public float GetNormalizedHealth()
+    {
+        return (float)_currentHealth / _owner.Stat.maxHealth.GetValue();
     }
 
 
@@ -37,7 +42,7 @@ public class Health : MonoBehaviour, IDamageable
         actionData.hitPoint = hitPoint;
         actionData.lastDamageType = damageType;
 
-        //³Ë¹éÀº ³ªÁß¿¡ ¿©±â¼­ Ã³¸®
+        //Â³Ã‹Â¹Ã©Ã€Âº Â³ÂªÃÃŸÂ¿Â¡ Â¿Â©Â±Ã¢Â¼Â­ ÃƒÂ³Â¸Â®
 
         if (knockbackPower > 0)
         {
@@ -45,7 +50,7 @@ public class Health : MonoBehaviour, IDamageable
         }
 
         actionData.isCritical = dealer.Stat.IsCritical(ref damage);
-        damage = _owner.Stat.ArmoredDamage(damage); //¾Æ¸Ó¼öÄ¡ Àû¿ëÇØ¼­ µ¥¹ÌÁö °è»ê
+        damage = _owner.Stat.ArmoredDamage(damage); //Â¾Ã†Â¸Ã“Â¼Ã¶Ã„Â¡ Ã€Ã»Â¿Ã«Ã‡Ã˜Â¼Â­ ÂµÂ¥Â¹ÃŒÃÃ¶ Â°Ã¨Â»Ãª
 
         _currentHealth = Mathf.Clamp(
                 _currentHealth - damage, 0, _owner.Stat.maxHealth.GetValue());

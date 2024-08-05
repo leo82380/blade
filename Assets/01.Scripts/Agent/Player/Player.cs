@@ -12,7 +12,8 @@ public enum PlayerStateEnum
     Run, 
     Fall,
     Attack,
-    Rolling
+    Rolling,
+    Hurt
 }
 
 public class Player : Agent
@@ -69,12 +70,7 @@ public class Player : Agent
 
         if (Input.GetKeyDown(KeyCode.O))
         {
-            UIManager.Instance.Open(WindowEnum.LevelUp);
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            UIManager.Instance.Close(WindowEnum.LevelUp);
+            HealthCompo.ApplyDamage(5, Vector3.zero, Vector3.zero, 0, this, DamageType.Melee);
         }
     }
 
@@ -95,6 +91,6 @@ public class Player : Agent
 
     public override void SetDead()
     {
-        //Áö±İÀº ¾Æ¹«°Íµµ ¾ÈÇÕ´Ï´Ù.
+        //ÃÃ¶Â±ÃÃ€Âº Â¾Ã†Â¹Â«Â°ÃÂµÂµ Â¾ÃˆÃ‡Ã•Â´ÃÂ´Ã™.
     }
 }

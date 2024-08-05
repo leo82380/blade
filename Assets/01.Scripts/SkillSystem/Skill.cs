@@ -5,7 +5,7 @@ public delegate void CooldownInfo(float current, float total);
 public class Skill : MonoBehaviour
 {
     public bool skillEnabled = false;
-    [SerializeField] protected float _cooldown; //ÀÌ ½ºÅ³ÀÇ ÄðÅ¸ÀÓ
+    [SerializeField] protected float _cooldown; //Ã€ÃŒ Â½ÂºÃ…Â³Ã€Ã‡ Ã„Ã°Ã…Â¸Ã€Ã“
     [SerializeField] protected bool _isAutoSkill;
 
     [HideInInspector] public Player player;

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b005a7142f6d374aaec58a5ba7ea854, type: 3}
   m_Name: HammerTable
   m_EditorClassIdentifier: 
-  dropExp: 250
+  dropExp: 120
   dropGoldMin: 1
   dropGoldMax: 5

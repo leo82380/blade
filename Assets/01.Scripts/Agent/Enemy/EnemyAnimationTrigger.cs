@@ -16,4 +16,9 @@ public class EnemyAnimationTrigger : MonoBehaviour
     {
         OnAnimationEvent?.Invoke();
     }
+    
+    private void DamageCastEvent()
+    {
+        _enemy.Attack();
+    }
 }

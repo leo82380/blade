@@ -33,7 +33,7 @@ public abstract class Agent : MonoBehaviour
             DamageCasterCompo.InitCaster(this);
         }
 
-        Stat = Instantiate(Stat); //ÀÚ±âÀÚ½Å º¹Á¦º»À¸·Î ¸¸µé°í µé¾î°£´Ù.
+        Stat = Instantiate(Stat); //Ã€ÃšÂ±Ã¢Ã€ÃšÂ½Ã… ÂºÂ¹ÃÂ¦ÂºÂ»Ã€Â¸Â·Ã Â¸Â¸ÂµÃ©Â°Ã­ ÂµÃ©Â¾Ã®Â°Â£Â´Ã™.
         Stat.SetOwner(this);
 
         HealthCompo = GetComponent<Health>();
@@ -53,7 +53,7 @@ public abstract class Agent : MonoBehaviour
 
     public virtual void Attack()
     {
-        //¿©±â¼­´Â ¾Æ¹«°Íµµ ¾ÈÇÑ´Ù.
+        //Â¿Â©Â±Ã¢Â¼Â­Â´Ã‚ Â¾Ã†Â¹Â«Â°ÃÂµÂµ Â¾ÃˆÃ‡Ã‘Â´Ã™.
     }
 
     public abstract void SetDead();

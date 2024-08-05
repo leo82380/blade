@@ -4,7 +4,7 @@ using UnityEngine;
 public enum CommonStateEnum
 {
     Idle,
-    Battle,  //ÃßÀû »óÅÂ
+    Battle,  //ÃƒÃŸÃ€Ã» Â»Ã³Ã…Ã‚
     Attack,
     Dead
 }
@@ -19,7 +19,7 @@ public class CommonEnemy : Enemy
         base.Awake();
         StateMachine = new EnemyStateMachine<CommonStateEnum>();
 
-        //¿©±â¿¡ »óÅÂ¸¦ ºÒ·¯¿À´Â ÄÚµå°¡ ÇÊ¿äÇÏ´Ù.
+        //Â¿Â©Â±Ã¢Â¿Â¡ Â»Ã³Ã…Ã‚Â¸Â¦ ÂºÃ’Â·Â¯Â¿Ã€Â´Ã‚ Ã„ÃšÂµÃ¥Â°Â¡ Ã‡ÃŠÂ¿Ã¤Ã‡ÃÂ´Ã™.
         foreach (CommonStateEnum stateEnum in Enum.GetValues(typeof(CommonStateEnum)))
         {
             string typeName = stateEnum.ToString();
@@ -51,7 +51,7 @@ public class CommonEnemy : Enemy
 
     public override void Attack()
     {
-        //¿©±â¼­ ³ªÁß¿¡ ½ÇÁ¦ °ø°İÃ³¸®¸¦ ÇÏ°ÚÁö.
+        DamageCasterCompo.CastDamage();
     }
 
     public override void AnimationEndTrigger()

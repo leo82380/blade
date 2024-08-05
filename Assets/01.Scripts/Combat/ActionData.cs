@@ -4,6 +4,7 @@ public class ActionData
 {
     public Vector3 hitPoint;
     public Vector3 hitNormal;
-    public bool isCritical; //ÀÌÀü ÇÇ°İÀÌ Å©¸®Æ¼ÄÃÀÌ¿´´Ï?
+    public bool isCritical; //Ã€ÃŒÃ€Ã¼ Ã‡Ã‡Â°ÃÃ€ÃŒ Ã…Â©Â¸Â®Ã†Â¼Ã„ÃƒÃ€ÃŒÂ¿Â´Â´Ã?
     public DamageType lastDamageType;
+    public float knockbackPower;
 }

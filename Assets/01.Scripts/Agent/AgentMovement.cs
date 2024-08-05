@@ -8,7 +8,7 @@ public class AgentMovement : MonoBehaviour, IMovement, IDirectMovable
     private Agent _agent;
     private Quaternion _targetRotation;
 
-    #region ¼Óµµ °ü·Ã ·ÎÁ÷
+    #region Â¼Ã“ÂµÂµ Â°Ã¼Â·Ãƒ Â·ÃÃÃ·
     private Vector3 _velocity;
     public Vector3 Velocity => _velocity;
     private float _verticalVelocity;
@@ -25,10 +25,10 @@ public class AgentMovement : MonoBehaviour, IMovement, IDirectMovable
 
     private void FixedUpdate()
     {
-        //Áß·Â °è»ê
+        //ÃÃŸÂ·Ã‚ Â°Ã¨Â»Ãª
         ApplyGravity();
         ApplyRotation();
-        //ÀÌµ¿
+        //Ã€ÃŒÂµÂ¿
         Move();
     }
 
@@ -73,11 +73,16 @@ public class AgentMovement : MonoBehaviour, IMovement, IDirectMovable
 
     //public void SetDestination(Vector3 destination)
     //{
-    //    //ÇÃ·¹ÀÌ¾î´Â ÀÌ ÇÔ¼ö¸¦ ¾È¾´´Ù. (NavMesh±â¹İ)
+    //    //Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã®Â´Ã‚ Ã€ÃŒ Ã‡Ã”Â¼Ã¶Â¸Â¦ Â¾ÃˆÂ¾Â´Â´Ã™. (NavMeshÂ±Ã¢Â¹Ã)
     //}
 
     public void GetKnockback(Vector3 force)
     {
-        //ÇöÀç´Â ³Ë¹éÀ» ±¸ÇöÇÏÁö ¾Ê´Â´Ù.
+        _agent.HealthCompo.actionData.knockbackPower = force.magnitude;
+        Vector3 dir = force;
+        dir.y = 0;
+        _targetRotation = Quaternion.LookRotation(-dir.normalized);
+        _agent.transform.rotation = _targetRotation;
+        (_agent as Player).StateMachine.ChangeState(PlayerStateEnum.Hurt);  
     }
 }

@@ -7,7 +7,7 @@ public abstract class Feedback : MonoBehaviour
 
     protected Agent _owner;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _owner = transform.parent.GetComponent<Agent>();
     }
