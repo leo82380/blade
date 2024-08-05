@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -42,7 +41,7 @@ public class AgentStat : ScriptableObject
     {
         _statDictionary = new Dictionary<StatType, Stat>();
 
-        Type agentStatType = typeof(AgentStat); //ì´ í´ëž˜ìŠ¤ì˜ íƒ€ìž…ì •ë³´ë¥¼ ë¶ˆëŸ¬ì™€ì„œ
+        Type agentStatType = typeof(AgentStat); //ÀÌ Å¬·¡½ºÀÇ Å¸ÀÔÁ¤º¸¸¦ ºÒ·¯¿Í¼­
 
         foreach(StatType typeEnum in Enum.GetValues(typeof(StatType)))
         {
@@ -61,6 +60,7 @@ public class AgentStat : ScriptableObject
     private string LowerFirstChar(string input) 
         => $"{char.ToLower(input[0])}{input.Substring(1)}";
 
+    
     public int GetDamage()
     {
         return damage.GetValue() + strength.GetValue() * 2;
@@ -68,34 +68,36 @@ public class AgentStat : ScriptableObject
 
     public bool CanEvasion()
     {
+        //¹ÎÃ¸ 1´ç È¸ÇÇ 1ÆÛ¼¾Æ® Áõ°¡.
         return IsHitPercent(evasion.GetValue() + agility.GetValue() * 10);
     }
 
     public int ArmoredDamage(int incomingDamage)
     {
+        //¹æ¾î·Â 1´ç µ¥¹ÌÁö 0.5 °¨¼Ò
         return Mathf.Max(1, incomingDamage - Mathf.FloorToInt(armor.GetValue() * 0.5f));
     }
 
     public bool IsCritical(ref int incomingDamage)
     {
-        if (IsHitPercent(criticalChance.GetValue()))
+        if(IsHitPercent(criticalChance.GetValue()) )
         {
-            incomingDamage = Mathf.FloorToInt(incomingDamage * criticalDamage.GetValue() * 0.0001f);
+            incomingDamage =  Mathf.FloorToInt(
+                    incomingDamage * criticalDamage.GetValue() * 0.0001f);
             return true;
         }
-
         return false;
     }
 
     protected bool IsHitPercent(int statValue) => Random.Range(1, 10000) < statValue;
-    
-    public void AddModifier(StatType statType, int value)
+
+    public void AddModifier(StatType type, int value)
     {
-        _statDictionary[statType].AddModifier(value);
+        _statDictionary[type].AddModifier(value);
     }
-    
-    public void RemoveModifier(StatType statType, int value)
+
+    public void RemoveModifier(StatType type, int value)
     {
-        _statDictionary[statType].RemoveModifier(value);
+        _statDictionary[type].RemoveModifier(value);
     }
 }

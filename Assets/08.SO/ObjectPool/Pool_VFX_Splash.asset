@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c849feb582448d42a8491aa630deaca, type: 3}
+  m_Script: {fileID: 11500000, guid: d1ecf68f36675214fac4fabf53ae014a, type: 3}
   m_Name: Pool_VFX_Splash
   m_EditorClassIdentifier: 
   enumName: VFX_Splash
   poolingName: Splash
   description: "\uBC14\uB2E5\uC5D0 \uD280\uB294 \uC774\uD399\uD2B8\uB4E4"
-  poolCount: 3
-  prefab: {fileID: 6075478526868158611, guid: 8918f68aa00663149a39890ab1a1c87f, type: 3}
+  poolCount: 5
+  prefab: {fileID: 6131350958521096262, guid: 649fa40549f62b044a022875beb7e681, type: 3}

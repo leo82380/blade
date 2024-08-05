@@ -41,8 +41,8 @@ public class Item : PoolableMono
             destination = hit.point + new Vector3(0, _collider.radius);
         }else
         {
-            Debug.Log("ë•…ì´ ì—†ìŠµë‹ˆë‹¤.");
-            destination = position; //ë°”ë‹¥ì´ ì—†ìœ¼ë©´ ê± ìœ„ë¡œ ì˜¬ë¼ê°”ë‹¤ê°€ ë–¨ì–´ì§€ë„ë¡ í•¨.
+            Debug.Log("¶¥ÀÌ ¾ø½À´Ï´Ù.");
+            destination = position; //¹Ù´ÚÀÌ ¾øÀ¸¸é °Á À§·Î ¿Ã¶ó°¬´Ù°¡ ¶³¾îÁöµµ·Ï ÇÔ.
         }
 
         float jumpPower = Random.Range(1.5f, 2f);
@@ -70,7 +70,7 @@ public class Item : PoolableMono
     {
         _collider.enabled = false;
         Vector3 startPos = transform.position;
-        //ì²˜ìŒ ë¨¹ì„ ë•Œ í”Œë ˆì´ì–´ì™€ ì½”ì¸ê°„ì˜ ê±°ë¦¬ë¥¼ ì¸¡ì •
+        //Ã³À½ ¸ÔÀ» ¶§ ÇÃ·¹ÀÌ¾î¿Í ÄÚÀÎ°£ÀÇ °Å¸®¸¦ ÃøÁ¤
         float distance = (pickerTrm.position - startPos).magnitude;
 
         float totalTime = distance * 0.1f;

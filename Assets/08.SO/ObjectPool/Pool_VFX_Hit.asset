@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c849feb582448d42a8491aa630deaca, type: 3}
+  m_Script: {fileID: 11500000, guid: d1ecf68f36675214fac4fabf53ae014a, type: 3}
   m_Name: Pool_VFX_Hit
   m_EditorClassIdentifier: 
   enumName: VFX_Hit
-  poolingName: "\uD53C\uACA9 \uC2DC \uB098\uC624\uB294 \uC774\uD399\uD2B8"
-  description: "\uAE08\uC18D\uC131 \uC801\uB4E4\uC774 \uB9DE\uC744 \uB54C \uC0DD\uC131\uB428"
+  poolingName: "\uD53C\uACA9\uC2DC \uB098\uC624\uB294 \uC774\uD399\uD2B8"
+  description: "\uAE08\uC18D\uC131 \uC801\uB4E4\uC774 \uB9DE\uC744 \uB54C \uC0DD\uC131\uB41C\uB2E4."
   poolCount: 3
-  prefab: {fileID: 554922289587888148, guid: af7150a6f483f94498b1305eeedad137, type: 3}
+  prefab: {fileID: 3056665089685797622, guid: 92c47a195c6597840b268a199e6496b9, type: 3}

@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac9923a1dbc602a4ca77c1a6133a09d3, type: 3}
+  m_Script: {fileID: 11500000, guid: dbf257c290e127745af45ccb6e78d630, type: 3}
   m_Name: PowerfulAttackPowerUp
   m_EditorClassIdentifier: 
   code: AtkUp
   shouldBeUnlock: 0
   title: "\uAC15\uB825\uD55C \uACF5\uACA9"
-  description: "\uB370\uBBF8\uC9C0\uB97C 5 \uC62C\uB9AC\uACE0 \uD798 \uC2A4\uD0EF\uC744
-    3 \uC62C\uB824\uC90D\uB2C8\uB2E4"
+  description: "\uB370\uBBF8\uC9C0\uB97C 5 \uC62C\uB9AC\uACE0 \uD798\uC2A4\uD15F\uC744
+    3 \uC62C\uB824\uC90D\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: cfd5a50d52fc63c48bed2e8e6d4b3b71, type: 3}
   effectList:
-  - {fileID: 11400000, guid: c337bd7b497dbc247b9a1735ce8f619e, type: 2}
-  - {fileID: 11400000, guid: 028bf4619a5d80f4cb687ddf7d9a59fb, type: 2}
+  - {fileID: 11400000, guid: b188ae89fe5d24a4088c43d4f6da3bc4, type: 2}
+  - {fileID: 11400000, guid: 9d2ef187384ff2241a57fa28f78bd90e, type: 2}

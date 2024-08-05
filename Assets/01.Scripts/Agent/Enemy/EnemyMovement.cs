@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,16 +11,16 @@ public class EnemyMovement : MonoBehaviour, IMovement, INavigationable
 
     [SerializeField] private float _knockbackThreshold;
     [SerializeField] private float _maxKnockbackTime;
-    
-    //
+
     public NavMeshAgent NavAgent => _navAgent;
 
     private Enemy _enemy;
     private NavMeshAgent _navAgent;
     private Rigidbody _rbCompo;
-    
-    private float _knockbackStartTime;
-    private bool _isKnockback;
+
+    private float _knockbackStartTime;   
+    private bool _isKnockback;  
+
     public void Initialize(Agent agent)
     {
         _enemy = agent as Enemy;
@@ -26,14 +28,13 @@ public class EnemyMovement : MonoBehaviour, IMovement, INavigationable
         _navAgent.speed = _enemy.moveSpeed;
         _rbCompo = GetComponent<Rigidbody>();
     }
-    
+
     public void SetDestination(Vector3 destination)
     {
         if (_navAgent.enabled == false) return;
         _navAgent.isStopped = false;
         _navAgent.SetDestination(destination);
     }
-
 
     public void StopImmediately()
     {
@@ -47,11 +48,11 @@ public class EnemyMovement : MonoBehaviour, IMovement, INavigationable
         toward.y = 0;
         transform.rotation = Quaternion.LookRotation(toward);
     }
-    
-    // public void SetMovement(Vector3 movement, bool isRotation = true)
-    // {
-    //     // ì—¬ê¸°ì„  ì•ˆì”€
-    // }
+
+    //public void SetMovement(Vector3 movement, bool isRotation = true)
+    //{
+    //    //ÀÌ ÇÔ¼ö´Â ¿©±â¼­´Â ¾²Áø ¾ÊÀ»²¨´Ù.
+    //}
 
     public void GetKnockback(Vector3 force)
     {
@@ -65,25 +66,27 @@ public class EnemyMovement : MonoBehaviour, IMovement, INavigationable
         _rbCompo.isKinematic = false;
         _rbCompo.AddForce(force, ForceMode.Impulse);
         _knockbackStartTime = Time.time;
-        
+
+        //ÀÌ¹Ì ³Ë¹éÀÌ ÁøÇàÁßÀÌ¶ó¸é ±×³É ½Ã°£ÀÌ¶û Èû¸¸ ¸®¼Â ½ÃÅ°°í Á¾·áÇÑ´Ù.
         if (_isKnockback)
             yield break;
-        
+
         _isKnockback = true;
         yield return new WaitForFixedUpdate();
         yield return new WaitForFixedUpdate();
 
         yield return new WaitUntil(
             () => _rbCompo.velocity.magnitude < _knockbackThreshold ||
-                  Time.time > _knockbackStartTime + _maxKnockbackTime);
-        
+                    Time.time > _knockbackStartTime + _maxKnockbackTime);
+
         DisableRigidbody();
 
         _navAgent.Warp(transform.position);
         _navAgent.enabled = true;
         _isKnockback = false;
-        
+
         yield return null;
+
     }
 
     private void DisableAgent()

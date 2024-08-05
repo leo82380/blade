@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7268794066148897416
+--- !u!1001 &6659675545498123904
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -16,17 +16,17 @@ PrefabInstance:
     - target: {fileID: 5680359259124363205, guid: 0570e3315dd21b34094ca0475d3310a7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8.38
       objectReference: {fileID: 0}
     - target: {fileID: 5680359259124363205, guid: 0570e3315dd21b34094ca0475d3310a7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.22
       objectReference: {fileID: 0}
     - target: {fileID: 5680359259124363205, guid: 0570e3315dd21b34094ca0475d3310a7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2.94
       objectReference: {fileID: 0}
     - target: {fileID: 5680359259124363205, guid: 0570e3315dd21b34094ca0475d3310a7,
         type: 3}
@@ -71,40 +71,40 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1936046340871599824, guid: 0570e3315dd21b34094ca0475d3310a7,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 554922289587888148}
+      addedObject: {fileID: 3056665089685797622}
   m_SourcePrefab: {fileID: 100100000, guid: 0570e3315dd21b34094ca0475d3310a7, type: 3}
---- !u!198 &3118603965887761336 stripped
+--- !u!198 &1437664119940286384 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5735457793395718448, guid: 0570e3315dd21b34094ca0475d3310a7,
     type: 3}
-  m_PrefabInstance: {fileID: 7268794066148897416}
+  m_PrefabInstance: {fileID: 6659675545498123904}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &8349919101579253270 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1675108850642248862, guid: 0570e3315dd21b34094ca0475d3310a7,
-    type: 3}
-  m_PrefabInstance: {fileID: 7268794066148897416}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &9079756382233494616 stripped
+--- !u!1 &5095220980597246032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1936046340871599824, guid: 0570e3315dd21b34094ca0475d3310a7,
     type: 3}
-  m_PrefabInstance: {fileID: 7268794066148897416}
+  m_PrefabInstance: {fileID: 6659675545498123904}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &554922289587888148
+--- !u!114 &3056665089685797622
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9079756382233494616}
+  m_GameObject: {fileID: 5095220980597246032}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 156cfe6741290d74e959da61406546af, type: 3}
+  m_Script: {fileID: 11500000, guid: d3d6a7267ff869e41b649497cd3d4214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
   _particles:
-  - {fileID: 8349919101579253270}
-  - {fileID: 3118603965887761336}
+  - {fileID: 5428180055390001694}
+  - {fileID: 1437664119940286384}
   _effects: []
+--- !u!198 &5428180055390001694 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1675108850642248862, guid: 0570e3315dd21b34094ca0475d3310a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 6659675545498123904}
+  m_PrefabAsset: {fileID: 0}

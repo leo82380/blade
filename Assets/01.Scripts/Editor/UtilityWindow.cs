@@ -1,26 +1,27 @@
-using System.Collections.Generic;
 using ObjectPooling;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
-using System.Text;
-using System.IO;
-using System;
 using Object = UnityEngine.Object;
 
 public enum UtilType
 {
     Pool,
-    PowerUp,
-    Effect
+    PowerUp, //πÏº≠√≥∑≥ æ∆¿Ã≈€ æ˜±◊∑π¿ÃµÂ
+    Effect, //«ÿ¥Á æ∆¿Ã≈€ ¿Ã∆Â∆Æ
 }
 
 public class UtilityWindow : EditorWindow
 {
     private static int toolbarIndex = 0;
-    private static Dictionary<UtilType, Vector2> scrollPositions 
+    private static Dictionary<UtilType, Vector2> scrollPositions
         = new Dictionary<UtilType, Vector2>();
-    private static Dictionary<UtilType, Object> selectedItem 
+    private static Dictionary<UtilType, Object> selectedItem
         = new Dictionary<UtilType, Object>();
+    
     private static Vector2 inspectorScroll = Vector2.zero;
 
     private string[] _toolbarItemNames;
@@ -28,21 +29,22 @@ public class UtilityWindow : EditorWindow
     private Texture2D _selectTexture;
     private GUIStyle _selectStyle;
 
-    #region Í∞Å Îç∞Ïù¥ÌÑ∞ ÌÖåÏù¥Î∏î Î™®Ïùå
+
+    #region ∞¢ µ•¿Ã≈Õ ≈◊¿Ã∫Ì ∏¿Ω
     private readonly string _poolDirectory = "Assets/08.SO/ObjectPool";
     private PoolingTableSO _poolTable;
-    
+
     private readonly string _powerUpDirectory = "Assets/08.SO/PowerUp";
     private PowerUpListSO _powerUpTable;
-    
+
     private readonly string _effectDirectory = "Assets/08.SO/PowerUp/Effects";
     private PowerUpEffectListSO _effectTable;
     #endregion
-    
+
     [MenuItem("Tools/Utility")]
     private static void OpenWindow()
     {
-        UtilityWindow window = GetWindow<UtilityWindow>("Utility");
+        UtilityWindow window = GetWindow<UtilityWindow>("¿Ø∆ø∏Æ∆º");
         window.minSize = new Vector2(700, 500);
         window.Show();
     }
@@ -58,59 +60,56 @@ public class UtilityWindow : EditorWindow
         DestroyImmediate(_selectTexture);
     }
 
+    //¿Ø∆ø∏Æ∆º ∞™µÈ º¬æ˜«œ¥¬ «‘ºˆ.
     private void SetUpUtility()
     {
-        _selectTexture = new Texture2D(1, 1); // 1ÌîΩÏÖÄÏßúÎ¶¨ ÌÖçÏä§Ï≥ê Í∑∏Î¶º
-        _selectTexture.SetPixel(0, 0, new Color(0.24f, 0.48f, 0.9f, 0.4f));
+        _selectTexture = new Texture2D(1, 1); //1«»ºø¬•∏Æ ≈ÿΩ∫√ƒ ±◊∏≤
+        _selectTexture.SetPixel(0, 0, new Color(0.31f, 0.40f, 0.50f));
         _selectTexture.Apply();
 
         _selectStyle = new GUIStyle();
         _selectStyle.normal.background = _selectTexture;
         
         _selectTexture.hideFlags = HideFlags.DontSave;
-        
+
         _toolbarItemNames = Enum.GetNames(typeof(UtilType));
-        foreach (UtilType type in Enum.GetValues(typeof(UtilType)))
+        
+        foreach(UtilType type in Enum.GetValues(typeof(UtilType)))
         {
-            if (scrollPositions.ContainsKey(type) == false)
+            if(scrollPositions.ContainsKey(type) == false)
                 scrollPositions[type] = Vector2.zero;
+
             if (selectedItem.ContainsKey(type) == false)
                 selectedItem[type] = null;
         }
 
-        if (_poolTable == null)
+        if(_poolTable == null)
         {
             _poolTable = CreateAssetTable<PoolingTableSO>(_poolDirectory);
         }
-        
-        if (_powerUpTable == null)
+        if(_powerUpTable == null)
         {
             _powerUpTable = CreateAssetTable<PowerUpListSO>(_powerUpDirectory);
         }
-        
-        if (_effectTable == null)
+        if(_effectTable == null)
         {
             _effectTable = CreateAssetTable<PowerUpEffectListSO>(_effectDirectory);
         }
-        
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
 
     private T CreateAssetTable<T>(string path) where T : ScriptableObject
     {
-        T table = AssetDatabase.LoadAssetAtPath<T>
-            ($"{path}/table.asset");
+        T table = AssetDatabase.LoadAssetAtPath<T>($"{path}/table.asset");
         if (table == null)
         {
             table = ScriptableObject.CreateInstance<T>();
-            string fileName = AssetDatabase.GenerateUniqueAssetPath
-                ($"{path}/table.asset");
-                
-            AssetDatabase.CreateAsset(table, fileName);
-            Debug.Log($"{typeof(T).Name} Table Create at {fileName}");
-        }
 
+            string fileName = AssetDatabase.GenerateUniqueAssetPath($"{path}/table.asset");
+            AssetDatabase.CreateAsset(table, fileName);
+            Debug.Log($"{typeof(T).Name} Table Created At : {fileName}");
+        }
         return table;
     }
 
@@ -124,7 +123,7 @@ public class UtilityWindow : EditorWindow
 
     private void DrawContent(int toolbarIndex)
     {
-        switch (toolbarIndex)
+        switch(toolbarIndex)
         {
             case 0:
                 DrawPoolItems();
@@ -137,35 +136,33 @@ public class UtilityWindow : EditorWindow
                 break;
         }
     }
-    
-    private T GenerateEffectAsset<T>(string path) where T : PowerUpEffectSO
+
+    private T GenerateEffectAsset<T>(string path) where T :PowerUpEffectSO
     {
         Guid guid = Guid.NewGuid();
-        T newData = CreateInstance<T>();
+        T newData = ScriptableObject.CreateInstance<T>();
         newData.code = guid.ToString();
         AssetDatabase.CreateAsset(newData, $"{path}/Effect_{guid}.asset");
         _effectTable.list.Add(newData);
         EditorUtility.SetDirty(_effectTable);
         AssetDatabase.SaveAssets();
-        
+
         return newData;
     }
 
     private void DrawEffectItems()
     {
-        // Ïä§ÌÇ¨ Ï¶ùÍ∞Ä, Ïä§ÌÇ¨ Ïñ∏ÎùΩ, Ïä§ÌÇ¨ÏóÖÍ∑∏Î†àÏù¥Îìú
+        //Ω∫≈»¡ı∞°, Ω∫≈≥æ∂Ù, Ω∫≈≥æ˜±◊∑π¿ÃµÂ
         EditorGUILayout.BeginHorizontal();
         {
             if (GUILayout.Button("Stat inc"))
             {
                 GenerateEffectAsset<StatIncEffectSO>($"{_effectDirectory}/StatInc");
             }
-
             if (GUILayout.Button("Skill Unlock"))
             {
                 GenerateEffectAsset<UnLockSkillEffectSO>($"{_effectDirectory}/UnlockSkill");
             }
-
             if (GUILayout.Button("Skill Upgrade"))
             {
                 GenerateEffectAsset<UpgradeSkillEffectSO>($"{_effectDirectory}/UpgradeSkill");
@@ -181,24 +178,24 @@ public class UtilityWindow : EditorWindow
                 EditorGUILayout.Space(3f);
 
 
-                scrollPositions[UtilType.Effect] = EditorGUILayout.BeginScrollView
-                (scrollPositions[UtilType.Effect], false, true,
-                    GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
+                scrollPositions[UtilType.Effect] = EditorGUILayout.BeginScrollView(
+                    scrollPositions[UtilType.Effect],
+                    false, true, GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
                 {
                     foreach (var so in _effectTable.list)
                     {
-                        float labelWith = 220f;
+                        float labelWidth = 220f;
                         GUIStyle style = selectedItem[UtilType.Effect] == so
-                            ? _selectStyle
-                            : GUIStyle.none;
+                                ? _selectStyle : GUIStyle.none;
 
-                        // ÌïúÏ§Ñ Í∑∏Î¶∞Îã§.
                         EditorGUILayout.BeginHorizontal(style, GUILayout.Height(40f));
                         {
+
                             EditorGUILayout.LabelField(
                                 $"[{so.type}]", GUILayout.Width(60f), GUILayout.Height(40f));
+
                             EditorGUILayout.LabelField(
-                                $"[{so.code}]", GUILayout.Width(labelWith), GUILayout.Height(40f));
+                                $"[{so.code}]", GUILayout.Width(labelWidth), GUILayout.Height(40f));
 
                             EditorGUILayout.BeginVertical();
                             {
@@ -211,18 +208,17 @@ public class UtilityWindow : EditorWindow
                                     EditorUtility.SetDirty(_effectTable);
                                     AssetDatabase.SaveAssets();
                                 }
-
                                 GUI.color = Color.white;
                             }
                             EditorGUILayout.EndVertical();
-                            // End of Delete
+                            //End of delete!
                         }
                         EditorGUILayout.EndHorizontal();
 
                         if (so == null)
                             break;
 
-                        // ÎßàÏßÄÎßâÏúºÎ°ú Í∑∏Î¶∞ ÏÇ¨Í∞ÅÌòï Ï†ïÎ≥¥Î•º ÏïåÏïÑÏò¥
+                        //∏∂¡ˆ∏∑¿∏∑Œ ±◊∏∞ ªÁ∞¢«¸ ¡§∫∏∏¶ æÀæ∆ø¬¥Ÿ.
                         Rect lastRect = GUILayoutUtility.GetLastRect();
 
                         if (Event.current.type == EventType.MouseDown
@@ -237,6 +233,7 @@ public class UtilityWindow : EditorWindow
                 EditorGUILayout.EndScrollView();
             }
             EditorGUILayout.EndVertical();
+
             if (selectedItem[UtilType.Effect] != null)
             {
                 inspectorScroll = EditorGUILayout.BeginScrollView(inspectorScroll);
@@ -244,13 +241,14 @@ public class UtilityWindow : EditorWindow
                     EditorGUILayout.Space(2f);
                     Editor.CreateCachedEditor(
                         selectedItem[UtilType.Effect], null, ref _cachedEditor);
-                        
+
                     _cachedEditor.OnInspectorGUI();
                 }
                 EditorGUILayout.EndScrollView();
             }
         }
         EditorGUILayout.EndHorizontal();
+
     }
 
     private void DrawPowerUpItems()
@@ -258,15 +256,14 @@ public class UtilityWindow : EditorWindow
         EditorGUILayout.BeginHorizontal();
         {
             GUI.color = new Color(0.19f, 0.76f, 0.08f);
-            if(GUILayout.Button("New PowerUp Item"))
+            if (GUILayout.Button("New PowerUp Item"))
             {
                 Guid guid = Guid.NewGuid();
                 PowerUpSO newData = CreateInstance<PowerUpSO>();
                 newData.code = guid.ToString();
-                AssetDatabase.CreateAsset(
-                    newData, $"{_powerUpDirectory}/PowerUp_{newData.code}.asset");
+                AssetDatabase.CreateAsset(newData, $"{_powerUpDirectory}/PowerUp_{newData.code}.asset");
                 _powerUpTable.list.Add(newData);
-                
+
                 EditorUtility.SetDirty(_powerUpTable);
                 AssetDatabase.SaveAssets();
             }
@@ -275,35 +272,37 @@ public class UtilityWindow : EditorWindow
         GUI.color = Color.white;
 
         EditorGUILayout.BeginHorizontal();
-        {
+        { 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.Width(300f));
             {
-                EditorGUILayout.LabelField("PowerUp list");
+                EditorGUILayout.LabelField("PowerUp List");
                 EditorGUILayout.Space(3f);
 
 
-                scrollPositions[UtilType.PowerUp] = EditorGUILayout.BeginScrollView
-                (scrollPositions[UtilType.PowerUp], false, true,
-                    GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
+                scrollPositions[UtilType.PowerUp] = EditorGUILayout.BeginScrollView(
+                    scrollPositions[UtilType.PowerUp],
+                    false, true, GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
                 {
-                    foreach (var so in _powerUpTable.list)
-                    {
-                        float labelWith = so.icon != null ? 200f : 240f;
-                        GUIStyle style = selectedItem[UtilType.PowerUp] == so
-                            ? _selectStyle
-                            : GUIStyle.none;
 
-                        // ÌïúÏ§Ñ Í∑∏Î¶∞Îã§.
+                    foreach(var so in _powerUpTable.list)
+                    {
+                        float labelWidth = so.icon != null ? 200f : 240f;
+                        GUIStyle style = selectedItem[UtilType.PowerUp] == so
+                                ? _selectStyle : GUIStyle.none;
+
+                        //«—¡Ÿ ±◊∏∞¥Ÿ.
                         EditorGUILayout.BeginHorizontal(style, GUILayout.Height(40f));
                         {
-                            if (so.icon != null)
+                            if(so.icon != null)
                             {
-                                // ÏïÑÏù¥ÏΩò Í∑∏Î¶¨Í∏∞
+                                //æ∆¿Ãƒ‹ ±◊∑¡¡ÿ¥Ÿ.
                                 Texture2D previewTexture = AssetPreview.GetAssetPreview(so.icon);
-                                GUILayout.Label(previewTexture, GUILayout.Width(40f), GUILayout.Height(40f));
+                                GUILayout.Label(
+                                    previewTexture, GUILayout.Width(40f), GUILayout.Height(40f));
                             }
 
-                            EditorGUILayout.LabelField(so.code, GUILayout.Width(labelWith), GUILayout.Height(40f));
+                            EditorGUILayout.LabelField(
+                                so.code, GUILayout.Width(labelWidth), GUILayout.Height(40f));
 
                             EditorGUILayout.BeginVertical();
                             {
@@ -316,18 +315,17 @@ public class UtilityWindow : EditorWindow
                                     EditorUtility.SetDirty(_powerUpTable);
                                     AssetDatabase.SaveAssets();
                                 }
-
                                 GUI.color = Color.white;
                             }
                             EditorGUILayout.EndVertical();
-                            // End of Delete
+                            //End of delete!
                         }
                         EditorGUILayout.EndHorizontal();
 
-                        if (so == null)
+                        if(so == null)
                             break;
 
-                        // ÎßàÏßÄÎßâÏúºÎ°ú Í∑∏Î¶∞ ÏÇ¨Í∞ÅÌòï Ï†ïÎ≥¥Î•º ÏïåÏïÑÏò¥
+                        //∏∂¡ˆ∏∑¿∏∑Œ ±◊∏∞ ªÁ∞¢«¸ ¡§∫∏∏¶ æÀæ∆ø¬¥Ÿ.
                         Rect lastRect = GUILayoutUtility.GetLastRect();
 
                         if (Event.current.type == EventType.MouseDown
@@ -342,6 +340,7 @@ public class UtilityWindow : EditorWindow
                 EditorGUILayout.EndScrollView();
             }
             EditorGUILayout.EndVertical();
+
             if (selectedItem[UtilType.PowerUp] != null)
             {
                 inspectorScroll = EditorGUILayout.BeginScrollView(inspectorScroll);
@@ -349,20 +348,18 @@ public class UtilityWindow : EditorWindow
                     EditorGUILayout.Space(2f);
                     Editor.CreateCachedEditor(
                         selectedItem[UtilType.PowerUp], null, ref _cachedEditor);
-                        
+
                     _cachedEditor.OnInspectorGUI();
                 }
                 EditorGUILayout.EndScrollView();
             }
         }
         EditorGUILayout.EndHorizontal();
-
-
     }
 
     private void DrawPoolItems()
     {
-        //ÏÉÅÎã®Ïóê Î©îÎâ¥ 2Í∞úÎ•º ÎßåÎì§Ïûê.
+        //ªÛ¥‹ø° ∏ﬁ¥∫ 2∞≥∏¶ ∏∏µÈ¿⁄.
         EditorGUILayout.BeginHorizontal();
         {
             GUI.color = new Color(0.19f, 0.76f, 0.08f);
@@ -379,31 +376,33 @@ public class UtilityWindow : EditorWindow
         }
         EditorGUILayout.EndHorizontal();
 
-        GUI.color = Color.white; //ÏõêÎûò ÏÉâÏÉÅÏúºÎ°ú Î≥µÍ∑Ä.
+        GUI.color = Color.white; //ø¯∑° ªˆªÛ¿∏∑Œ ∫π±Õ.
 
         EditorGUILayout.BeginHorizontal();
         {
-            // ÏôºÏ™Ω ÌíÄÎ¶¨Ïä§Ìä∏ Ï∂úÎ†•Î∂ÄÎ∂Ñ
+
+            //øﬁ¬  «Æ∏ÆΩ∫∆Æ √‚∑¬∫Œ∫–
             EditorGUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.Width(300f));
             {
                 EditorGUILayout.LabelField("Pooling list");
                 EditorGUILayout.Space(3f);
-                
-                
-                scrollPositions[UtilType.Pool] = EditorGUILayout.BeginScrollView
-                    (scrollPositions[UtilType.Pool], false, true, 
-                        GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
+
+
+                scrollPositions[UtilType.Pool] = EditorGUILayout.BeginScrollView(
+                    scrollPositions[UtilType.Pool], 
+                    false, true, GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
                 {
-                    foreach (PoolingItemSO item in _poolTable.datas)
+
+                    foreach(PoolingItemSO item in _poolTable.datas)
                     {
-                        // ÌòÑÏû¨ Í∑∏Î¶¥ itemÏù¥ ÏÑ†ÌÉùÏïÑÏù¥ÌÖúÍ≥º ÎèôÏùºÌïòÎ©¥ Ïä§ÌÉÄÏùº ÏßÄÏ†ï
-                        GUIStyle style = selectedItem[UtilType.Pool] == item
-                            ? _selectStyle
-                            : GUIStyle.none;
+
+                        //«ˆ¿Á ±◊∏± item¿Ã º±≈√æ∆¿Ã≈€∞˙ µø¿œ«œ∏È Ω∫≈∏¿œ¡ˆ¡§
+                        GUIStyle style = selectedItem[UtilType.Pool] == item ?
+                                                _selectStyle : GUIStyle.none;
+
                         EditorGUILayout.BeginHorizontal(style, GUILayout.Height(40f));
                         {
-                            EditorGUILayout.LabelField(item.enumName, 
-                                GUILayout.Height(40f), GUILayout.Width(240f));
+                            EditorGUILayout.LabelField(item.enumName, GUILayout.Height(40f), GUILayout.Width(240f));
 
                             EditorGUILayout.BeginVertical();
                             {
@@ -411,43 +410,46 @@ public class UtilityWindow : EditorWindow
                                 GUI.color = Color.red;
                                 if (GUILayout.Button("X", GUILayout.Width(20f)))
                                 {
+                                    //_poolTable.datas ø©±‚º≠ «ÿ¥Á«œ¥¬ ≥‡ºÆ¿ª ªË¡¶«ÿæﬂ«ÿ
                                     _poolTable.datas.Remove(item);
-                                    AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(item));
+                                    //Assetdatabase.DeleteAsset±‚¥…¿ª ¿ÃøÎ«ÿº≠ øœ¿¸»˜ SOµµ ªË¡¶«ÿæﬂ«ÿ
+                                    AssetDatabase.DeleteAsset( AssetDatabase.GetAssetPath(item));
+                                    // _poolTable ¥ı∑¥¥Ÿ∞Ì ¿Ãæﬂ±‚«ÿ¡‡æﬂ «ÿ
                                     EditorUtility.SetDirty(_poolTable);
+                                    // SaveAsset¿ª ≈Î«ÿº≠ ¿˙¿Â«ÿ¡÷∏È µ≈.
                                     AssetDatabase.SaveAssets();
                                 }
                                 GUI.color = Color.white;
                             }
                             EditorGUILayout.EndVertical();
-                            
                         }
                         EditorGUILayout.EndHorizontal();
-                        
-                        // ÎßàÏßÄÎßâÏúºÎ°ú Í∑∏Î¶∞ ÏÇ¨Í∞ÅÌòï Ï†ïÎ≥¥Î•º ÏïåÏïÑÏò¥
+
+                        //∏∂¡ˆ∏∑¿∏∑Œ ±◊∏∞ ªÁ∞¢«¸ ¡§∫∏∏¶ æÀæ∆ø¬¥Ÿ.
                         Rect lastRect = GUILayoutUtility.GetLastRect();
 
-                        if (Event.current.type == EventType.MouseDown
-                            && lastRect.Contains(Event.current.mousePosition)) 
+                        if(Event.current.type == EventType.MouseDown 
+                            && lastRect.Contains(Event.current.mousePosition))
                         {
                             inspectorScroll = Vector2.zero;
                             selectedItem[UtilType.Pool] = item;
                             Event.current.Use();
                         }
-                        
-                        // ÏÇ≠Ï†ú ÌôïÏù∏ break;
+
+                        //ªË¡¶µ»∞… »Æ¿Œ«œ∏È break∏¶ ∞…æÓ¡÷∏È µ≈.
                         if (item == null)
                             break;
-                    }
-                    // end of foreach
-                    
+
+                    } 
+                    //end of foreach
+
                 }
-                EditorGUILayout.EndScrollView();
-                
-                
+                EditorGUILayout.EndScrollView();   
+
             }
             EditorGUILayout.EndVertical();
-            
-            // Ïù∏Ïä§ÌéôÌÑ∞ Í∑∏Î¶¨Í∏∞
+
+            //¿ŒΩ∫∆Â≈Õ∏¶ ±◊∑¡¡‡æﬂ «ÿ.
             if (selectedItem[UtilType.Pool] != null)
             {
                 inspectorScroll = EditorGUILayout.BeginScrollView(inspectorScroll);
@@ -455,46 +457,48 @@ public class UtilityWindow : EditorWindow
                     EditorGUILayout.Space(2f);
                     Editor.CreateCachedEditor(
                         selectedItem[UtilType.Pool], null, ref _cachedEditor);
-                        
+
                     _cachedEditor.OnInspectorGUI();
                 }
                 EditorGUILayout.EndScrollView();
             }
         }
         EditorGUILayout.EndHorizontal();
+
     }
-    
+
+
     private void GeneratePoolItem()
     {
-        Guid guid = Guid.NewGuid(); // Í≥†Ïú†Ìïú Î¨∏ÏûêÏó¥ ÌÇ§ Î∞òÌôò
+        Guid guid = Guid.NewGuid(); //∞Ì¿Ø«— πÆ¿⁄ø≠ ≈∞∏¶ π›»Ø«ÿ
         
-        PoolingItemSO item = CreateInstance<PoolingItemSO>(); // Î©îÎ™®Î¶¨ÏóêÎßå ÏÉùÏÑ±
+        PoolingItemSO item = CreateInstance<PoolingItemSO>(); //¿Ã∞« ∏ﬁ∏∏Æø°∏∏ ª˝º∫«—∞≈æﬂ.
         item.enumName = guid.ToString();
-        
+
+        //Ω«¡¶∑Œ ø°º¬¿∏∑Œ ¡¶¿€«ﬂ∞Ì ∏ÆΩ∫∆Æµµ ∫Ø∞Ê«ﬂæÓ.
         AssetDatabase.CreateAsset(item, $"{_poolDirectory}/Pool_{item.enumName}.asset");
         _poolTable.datas.Add(item);
-        
-        EditorUtility.SetDirty(_poolTable);
-        AssetDatabase.SaveAssets();
+
+        EditorUtility.SetDirty(_poolTable);  //¿Ã ≈◊¿Ã∫Ìø° ∫Ø∞Ê¿Ã ¿œæÓ≥µ¿Ω¿ª æÀ∑¡¡‡æﬂ «ÿ
+        AssetDatabase.SaveAssets(); //∫Ø∞Êµ» ∞ÕµÈ¿ª ¿ŒΩƒ«ÿº≠ ¿˙¿Â¿ª «—¥Ÿ.
     }
 
     private void GenerateEnumFile()
     {
         StringBuilder codeBuilder = new StringBuilder();
 
-        foreach (PoolingItemSO item in _poolTable.datas)
+        foreach(PoolingItemSO item in _poolTable.datas)
         {
             codeBuilder.Append(item.enumName);
             codeBuilder.Append(",");
         }
-        
+
         string code = string.Format(CodeFormat.PoolingTypeFormat, codeBuilder.ToString());
-        
+
         string path = $"{Application.dataPath}/01.Scripts/Core/ObjectPool/PoolingType.cs";
-        
+
         File.WriteAllText(path, code);
-        AssetDatabase.Refresh();
+        AssetDatabase.Refresh(); //¥ŸΩ√ ƒƒ∆ƒ¿œ Ω√¿€
     }
 
-    
 }

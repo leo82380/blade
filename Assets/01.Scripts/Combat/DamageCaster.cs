@@ -1,17 +1,21 @@
+using System;
 using UnityEngine;
 
 public class DamageCaster : MonoBehaviour
 {
-    [SerializeField][Range(0.5f, 3f)]
+    [SerializeField]
+    [Range(0.5f, 3f)]
     private float _casterRadius = 1f;
-    [SerializeField][Range(0, 1f)]
+    [SerializeField]
+    [Range(0, 1f)]
     private float _casterInterpolation = 0.5f;
-    [SerializeField] [Range(0, 3f)] 
+    [SerializeField]
+    [Range(0, 3f)]
     private float _castingRange = 1f;
-    
+
     public LayerMask targetLayer;
     private Agent _owner;
-    
+
     public void InitCaster(Agent agent)
     {
         _owner = agent;
@@ -20,22 +24,25 @@ public class DamageCaster : MonoBehaviour
     public bool CastDamage()
     {
         Vector3 startPos = GetStartPos();
-        bool isHit = Physics.SphereCast
-            (startPos, _casterRadius, transform.forward, out RaycastHit hit, _castingRange, targetLayer);
+        bool isHit = Physics.SphereCast(
+            startPos, 
+            _casterRadius, 
+            transform.forward, 
+            out RaycastHit hit, 
+            _castingRange, targetLayer);
 
-        if (isHit)
+        if(isHit)
         {
-            Debug.Log($"ÌÉÄÍ≤© : {hit.collider.name}");
-            if (hit.collider.TryGetComponent(out IDamageable damageable))
+            //Debug.Log($"≈∏∞› : {hit.collider.name}");
+            if(hit.collider.TryGetComponent<IDamageable>(out IDamageable health))
             {
-                // ÎÇòÏ§ëÏóê Ïä§ÌÉØÏóêÏÑú Í∞ÄÏ†∏Ïò¥
-                int damage = _owner.Stat.GetDamage();
-                float knockbackPower = 3f;
-                damageable.ApplyDamage(damage, hit.point, hit.normal, 
-                    knockbackPower, _owner, DamageType.Melee);
+                int damage = _owner.Stat.GetDamage(); //¡÷¿Œ¿« µ•πÃ¡ˆ
+                float knockbackPower = 3f; //≥™¡ﬂø° Ω∫≈»¿∏∑Œ∫Œ≈Õ ∞°¡ÆøÕæﬂ «ÿ.
+
+                health.ApplyDamage(damage, hit.point, hit.normal, knockbackPower, _owner, DamageType.Melee);
             }
         }
-        
+
         return isHit;
     }
 
@@ -43,7 +50,7 @@ public class DamageCaster : MonoBehaviour
     {
         return transform.position + transform.forward * -_casterInterpolation * 2;
     }
-    
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
@@ -54,4 +61,5 @@ public class DamageCaster : MonoBehaviour
         Gizmos.color = Color.white;
     }
 #endif
+
 }

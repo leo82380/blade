@@ -14,12 +14,12 @@ public class CustomPowerUp : Editor
 
     public SerializedProperty effectListProp;
 
-    private GUIStyle _textAreaStyle; //í…ìŠ¤íŠ¸ ë© ìŠ¤íƒ€ì¼ì„ ì§€ì •í•˜ê¸° ìœ„í•´ì„œ 
+    private GUIStyle _textAreaStyle; //ÅØ½ºÆ® ·¦ ½ºÅ¸ÀÏÀ» ÁöÁ¤ÇÏ±â À§ÇØ¼­ 
 
 
     private void OnEnable()
     {
-        //ì™œí–ˆëŠ”ì§€ ê¸°ì–µë‚˜ë‹ˆ? í…ìŠ¤íŠ¸ ì…ë ¥ì— í¬ì»¤ìŠ¤ 
+        //¿ÖÇß´ÂÁö ±â¾ï³ª´Ï? ÅØ½ºÆ® ÀÔ·Â¿¡ Æ÷Ä¿½º 
         GUIUtility.keyboardControl = 0;
         codeProp = serializedObject.FindProperty("code");
         shouldBeUnlockProp = serializedObject.FindProperty("shouldBeUnlock");
@@ -35,14 +35,14 @@ public class CustomPowerUp : Editor
         if (_textAreaStyle == null)
         {
             _textAreaStyle = new GUIStyle(EditorStyles.textArea);
-            _textAreaStyle.wordWrap = true; //ì´ê²ƒë•Œë¬¸ì— ì˜¤ë²„ë¼ì´ë“œ í•œë‹¤.
+            _textAreaStyle.wordWrap = true; //ÀÌ°Í¶§¹®¿¡ ¿À¹ö¶óÀÌµå ÇÑ´Ù.
         }
     }
 
     public override void OnInspectorGUI()
     {
         StyleSetUp();
-        //ì‹œì‘í• ë•Œ í•´ì¤„ ì¼
+        //½ÃÀÛÇÒ¶§ ÇØÁÙ ÀÏ
         serializedObject.Update();
 
         EditorGUILayout.Space(10f);
@@ -73,7 +73,7 @@ public class CustomPowerUp : Editor
 
                         string msg = AssetDatabase.RenameAsset(assetPath, newName);
 
-                        //ì„±ê³µì ìœ¼ë¡œ ì´ë¦„ì„ ë³€ê²½í–ˆë‹¤ë©´ nullì´ ë¦¬í„´ëœë‹¤.
+                        //¼º°øÀûÀ¸·Î ÀÌ¸§À» º¯°æÇß´Ù¸é nullÀÌ ¸®ÅÏµÈ´Ù.
                         if (string.IsNullOrEmpty(msg))
                         {
                             target.name = newName;
@@ -98,7 +98,7 @@ public class CustomPowerUp : Editor
         EditorGUILayout.PropertyField(descProp);
         EditorGUILayout.PropertyField(effectListProp);
 
-        //ëë‚  ë•Œ í•´ì¤„ì¼ 
+        //³¡³¯ ¶§ ÇØÁÙÀÏ 
         serializedObject.ApplyModifiedProperties();
     }
 }

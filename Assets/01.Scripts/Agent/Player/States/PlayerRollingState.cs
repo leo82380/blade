@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 
-
-
 public class PlayerRollingState : PlayerState
 {
     public PlayerRollingState(Player player, PlayerStateMachine stateMachine, string boolName) : base(player, stateMachine, boolName)
@@ -15,7 +13,9 @@ public class PlayerRollingState : PlayerState
 
         Vector3 movingDirection = GetMovingDirection();
         _player.transform.forward = movingDirection;
-        _player.DirectMoveCompo.SetMovement(movingDirection * _player.dashSpeed);
+
+        _player.DirectMoveCompo.SetMovement(
+                        movingDirection * _player.dashSpeed);
     }
 
     private Vector3 GetMovingDirection()
@@ -28,14 +28,22 @@ public class PlayerRollingState : PlayerState
                 break;
             case RollingDirection.Front:
                 Vector3 lastInput = _player.PlayerInput.KeyInput;
-                if (lastInput.magnitude > Mathf.Epsilon)
+                if (lastInput.magnitude > 0)
+                {
                     direction = Quaternion.Euler(0, -45f, 0) * lastInput.normalized;
+                }
                 else
+                {
                     direction = _player.transform.forward;
+                }
                 break;
         }
-
         return direction;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
     }
 
     public override void UpdateState()
@@ -45,8 +53,4 @@ public class PlayerRollingState : PlayerState
             _stateMachine.ChangeState(PlayerStateEnum.Idle);
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
 }

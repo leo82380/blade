@@ -5,24 +5,23 @@ using UnityEngine;
 
 public class SController : MonoBehaviour
 {
-    [SerializeField] private float _speed = 5f;
+    private SInput _input;
+    private CharacterController _cc;
+    private Vector3 _movementInput;
+
     [SerializeField] private Transform _trailPrefab;
     [SerializeField] private Transform _impactPrefab;
     [SerializeField] private Transform _firePos;
-    
-    private CharacterController _characterController;
-    private SInput _input;
-    private Vector3 _movementInput;
 
     private Quaternion _quaterRotation;
     private void Awake()
     {
+        _cc = GetComponent<CharacterController>();
         _input = GetComponent<SInput>();
-        _characterController = GetComponent<CharacterController>();
-        _quaterRotation = Quaternion.Euler(0f, -45f, 0f);
-        
         _input.OnMovementEvent += HandleMovementEvent;
         _input.OnFireEvent += HandleFireEvent;
+
+        _quaterRotation = Quaternion.Euler(0, -45f, 0);
     }
 
     private void HandleFireEvent()
@@ -32,29 +31,32 @@ public class SController : MonoBehaviour
 
     private IEnumerator FireCoroutine()
     {
-        Vector3 startPos = _firePos.position;
+        //·¹ÀÌ¸¦ ½÷¼­
+        Vector3 startPosition = _firePos.position;
         float maxRange = 15f;
         bool isHit = Physics.Raycast(
-            startPos, _firePos.forward, out RaycastHit hit, maxRange);
+            startPosition, _firePos.forward, out RaycastHit hit, 15f);
 
-        Transform trail = Instantiate(_trailPrefab, startPos, Quaternion.identity);
+        Transform trail = Instantiate(
+            _trailPrefab, startPosition, Quaternion.identity);
+
         yield return null;
-        
-        trail.position = isHit ? hit.point : startPos + _firePos.forward * maxRange;
-        
-        if (isHit)
-        {
-            Transform impact = Instantiate(_impactPrefab, hit.point, Quaternion.LookRotation(hit.normal));
-            
-            hit.rigidbody?.AddForce(_firePos.forward * 10f, ForceMode.Impulse);
-        }
 
+        trail.position = isHit ? hit.point : startPosition + _firePos.forward * maxRange;
+
+        if(isHit)
+        {
+            Transform impact = Instantiate(
+            _impactPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+
+            hit.rigidbody?.AddForce(hit.normal * -10f, ForceMode.Impulse);
+        }
     }
 
-    private void OnDestroy()
+
+    private void HandleMovementEvent(Vector3 movement)
     {
-        _input.OnMovementEvent -= HandleMovementEvent;
-        _input.OnFireEvent -= HandleFireEvent;
+        _movementInput = movement;
     }
 
     private void FixedUpdate()
@@ -65,15 +67,7 @@ public class SController : MonoBehaviour
     private void Move()
     {
         Vector3 movement = _quaterRotation * _movementInput;
-        _characterController.Move(movement * (_speed * Time.fixedDeltaTime));
+        float moveSpeed = 8f;
+        _cc.Move(movement * moveSpeed * Time.fixedDeltaTime);
     }
-
-    private void HandleMovementEvent(Vector3 movement)
-    {
-        _movementInput = movement;
-    }
-
-    
-    
-    
 }

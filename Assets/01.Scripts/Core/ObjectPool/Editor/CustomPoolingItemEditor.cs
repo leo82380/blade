@@ -1,4 +1,3 @@
-using System;
 using ObjectPooling;
 using UnityEditor;
 using UnityEngine;
@@ -12,12 +11,13 @@ public class CustomPoolingItemEditor : Editor
     private SerializedProperty poolCountProp;
     private SerializedProperty prefabProp;
 
+
     private GUIStyle textAreaStyle;
-    
+
     private void OnEnable()
     {
         GUIUtility.keyboardControl = 0;
-        StyleSetup();
+
         enumNameProp = serializedObject.FindProperty("enumName");
         poolingNameProp = serializedObject.FindProperty("poolingName");
         descriptionProp = serializedObject.FindProperty("description");
@@ -31,33 +31,35 @@ public class CustomPoolingItemEditor : Editor
         {
             textAreaStyle = new GUIStyle(EditorStyles.textArea);
             textAreaStyle.wordWrap = true;
-            textAreaStyle.active.textColor = Color.white;
         }
     }
 
     public override void OnInspectorGUI()
     {
+        StyleSetup();
+
         serializedObject.Update();
+
         EditorGUILayout.BeginHorizontal("HelpBox");
         {
             EditorGUILayout.BeginVertical();
             {
-                #region EnumName
-                EditorGUI.BeginChangeCheck(); // Î≥ÄÍ≤Ω Ï≤¥ÌÅ¨
+
+                EditorGUI.BeginChangeCheck(); //∫Ø∞Ê¿ª √º≈©«—¥Ÿ.
                 string prevName = enumNameProp.stringValue;
-                // ÏóîÌÑ∞Í∞Ä Ï≥êÏßÄÍ±∞ÎÇò Ìè¨Ïª§Ïä§Í∞Ä ÎÇòÍ∞à ÎïåÍπåÏßÄ Î≥ÄÍ≤Ω Ï†ÄÏû• ÏïàÌï®
+                //ø£≈Õ∞° √ƒ¡ˆ∞≈≥™ ∆˜ƒøΩ∫∞° ≥™∞•∂ß±Ó¡ˆ ∫Ø∞Ê¿ª ¿˙¿Â«œ¡ˆ æ æ∆.
                 EditorGUILayout.DelayedTextField(enumNameProp);
 
                 if (EditorGUI.EndChangeCheck())
                 {
-                    // ÌòÑÏû¨ Ìé∏ÏßëÏ§ëÏù∏ ÏóêÏÖãÏùò Í≤ΩÎ°ú
+                    //«ˆ¿Á ∆Ì¡˝¡ﬂ¿Œ ø°º¬¿« ∞Ê∑Œ∏¶ æÀæ∆≥ª∂Û.
                     string assetPath = AssetDatabase.GetAssetPath(target);
                     string newName = $"Pool_{enumNameProp.stringValue}";
                     serializedObject.ApplyModifiedProperties();
-                    
+
                     string msg = AssetDatabase.RenameAsset(assetPath, newName);
-                    
-                    // ÏÑ±Í≥µÏ†ÅÏúºÎ°ú ÌååÏùºÎ™Ö Î≥ÄÍ≤Ω
+
+                    //º∫∞¯¿˚¿∏∑Œ ∆ƒ¿œ∏Ì ∫Ø∞Ê«ﬂæÓø‰.
                     if (string.IsNullOrEmpty(msg))
                     {
                         target.name = newName;
@@ -65,27 +67,27 @@ public class CustomPoolingItemEditor : Editor
                         EditorGUILayout.EndHorizontal();
                         return;
                     }
-                    
                     enumNameProp.stringValue = prevName;
                 }
-                #endregion
-                
+
+
                 EditorGUILayout.PropertyField(poolingNameProp);
 
-                #region Description
                 EditorGUILayout.BeginVertical("HelpBox");
                 {
                     EditorGUILayout.LabelField("Description");
-                    
-                    descriptionProp.stringValue = 
-                        EditorGUILayout.TextArea(descriptionProp.stringValue,  textAreaStyle, GUILayout.Height(60));
+
+                    descriptionProp.stringValue = EditorGUILayout.TextArea(
+                        descriptionProp.stringValue,
+                        textAreaStyle,
+                        GUILayout.Height(60)); 
                 }
                 EditorGUILayout.EndVertical();
-                #endregion
+
 
                 EditorGUILayout.BeginHorizontal();
                 {
-                    EditorGUILayout.PrefixLabel("Pool Settings");
+                    EditorGUILayout.PrefixLabel("PoolSettings");
                     EditorGUILayout.PropertyField(poolCountProp, GUIContent.none);
                     EditorGUILayout.PropertyField(prefabProp, GUIContent.none);
                 }
@@ -94,6 +96,7 @@ public class CustomPoolingItemEditor : Editor
             EditorGUILayout.EndVertical();
         }
         EditorGUILayout.EndHorizontal();
+
 
         serializedObject.ApplyModifiedProperties();
     }

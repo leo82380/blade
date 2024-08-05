@@ -9,13 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac9923a1dbc602a4ca77c1a6133a09d3, type: 3}
+  m_Script: {fileID: 11500000, guid: dbf257c290e127745af45ccb6e78d630, type: 3}
   m_Name: PowerUp_Atk_Up
   m_EditorClassIdentifier: 
   code: Atk_Up
   shouldBeUnlock: 0
   title: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-  description: "\uACF5\uACA9\uB825\uC744 5 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  description: "\uACF5\uACA9\uB825 5\uC99D\uAC00 \uBC0F \uD06C\uB9AC\uD2F0\uCEEC
+    1\uD37C\uC99D\uAC00"
   icon: {fileID: 21300000, guid: 5d15dcfd545aaff4a934b945becf160d, type: 3}
   effectList:
-  - {fileID: 11400000, guid: 028bf4619a5d80f4cb687ddf7d9a59fb, type: 2}
+  - {fileID: 11400000, guid: 9d2ef187384ff2241a57fa28f78bd90e, type: 2}
+  - {fileID: 11400000, guid: 2698b7a46f2f74b4ab271c42af37de8e, type: 2}
+  - {fileID: 11400000, guid: 2698b7a46f2f74b4ab271c42af37de8e, type: 2}

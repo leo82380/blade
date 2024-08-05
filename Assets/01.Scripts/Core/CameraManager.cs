@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraManager : MonoSingleton<CameraManager>
@@ -8,10 +10,11 @@ public class CameraManager : MonoSingleton<CameraManager>
     {
         Camera mainCam = Camera.main;
         Ray ray = mainCam.ScreenPointToRay(screenPos);
-        
+
         bool result = Physics.Raycast(ray, out RaycastHit hit, mainCam.farClipPlane, _whatIsGround);
-        
+
         worldPos = result ? hit.point : Vector3.zero;
+        
         return result;
     }
 
@@ -19,13 +22,13 @@ public class CameraManager : MonoSingleton<CameraManager>
     {
         bool hit = ScreenToWorld(mouseScreenPos, out Vector3 worldPos);
 
-        if (hit)
+        if(hit)
         {
             Vector3 direction = worldPos - trm.position;
             direction.y = 0;
             return direction.normalized;
         }
-        
+
         return trm.forward;
     }
 }

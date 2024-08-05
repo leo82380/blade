@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerFallState : PlayerState
@@ -11,7 +12,7 @@ public class PlayerFallState : PlayerState
         base.Enter();
         _player.PlayerInput.MovementEvent += HandleMovementEvent;
     }
-    
+
     public override void Exit()
     {
         _player.PlayerInput.MovementEvent -= HandleMovementEvent;
@@ -24,16 +25,13 @@ public class PlayerFallState : PlayerState
         _player.DirectMoveCompo.SetMovement(velocity * _player.moveSpeed * 0.5f);
     }
 
-    
-
     public override void UpdateState()
     {
         base.UpdateState();
-        if (_player.MovementCompo.IsGround)
+
+        if(_player.MovementCompo.IsGround == true)
         {
             _stateMachine.ChangeState(PlayerStateEnum.Idle);
         }
     }
-
-    
 }

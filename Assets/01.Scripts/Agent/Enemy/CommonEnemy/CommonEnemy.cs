@@ -1,26 +1,25 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Reflection;
 
 public enum CommonStateEnum
 {
     Idle,
-    Battle,
+    Battle,  //ÃßÀû »óÅÂ
     Attack,
     Dead
 }
+
 public class CommonEnemy : Enemy
 {
+
     public EnemyStateMachine<CommonStateEnum> StateMachine { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
         StateMachine = new EnemyStateMachine<CommonStateEnum>();
-        
-        // ìƒíƒœ ë¶ˆëŸ¬ì˜¤ëŠ” ì½”ë“œ
+
+        //¿©±â¿¡ »óÅÂ¸¦ ºÒ·¯¿À´Â ÄÚµå°¡ ÇÊ¿äÇÏ´Ù.
         foreach (CommonStateEnum stateEnum in Enum.GetValues(typeof(CommonStateEnum)))
         {
             string typeName = stateEnum.ToString();
@@ -28,39 +27,38 @@ public class CommonEnemy : Enemy
 
             try
             {
-                EnemyState<CommonStateEnum> state = Activator.CreateInstance(
-                    t, this, StateMachine, typeName) as EnemyState<CommonStateEnum>;
+                EnemyState<CommonStateEnum> state =
+                    Activator.CreateInstance(t, this, StateMachine, typeName) as EnemyState<CommonStateEnum>;
                 StateMachine.AddState(stateEnum, state);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.LogError($"Enemy Hammer : No State Found [ {typeName} ]");
-                Debug.LogError(e.Message);
+                Debug.LogError($"Enemy Hammer : no State found [ {typeName} ] - {ex.Message}");
             }
-
         }
+
     }
-    
+
     private void Start()
     {
         StateMachine.Initialize(CommonStateEnum.Idle, this);
     }
-    
+
     private void Update()
     {
         StateMachine.CurrentState.UpdateState();
     }
-    
+
     public override void Attack()
     {
-        //ê³µê²© ë¡œì§
+        //¿©±â¼­ ³ªÁß¿¡ ½ÇÁ¦ °ø°İÃ³¸®¸¦ ÇÏ°ÚÁö.
     }
-
 
     public override void AnimationEndTrigger()
     {
-        StateMachine.CurrentState.AnimationTrigger();
+        StateMachine.CurrentState.AnimationFinishTrigger();
     }
+
     public override void SetDead()
     {
         StateMachine.ChangeState(CommonStateEnum.Dead, true);

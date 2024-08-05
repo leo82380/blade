@@ -7,7 +7,7 @@ public class EnemyState<T> where T : Enum
     protected Enemy _enemyBase;
     protected bool _endTriggerCalled;
     protected int _animBoolHash;
-    
+
     public EnemyState(Enemy enemyBase, EnemyStateMachine<T> stateMachine, string animBoolName)
     {
         _enemyBase = enemyBase;
@@ -15,20 +15,20 @@ public class EnemyState<T> where T : Enum
         _animBoolHash = Animator.StringToHash(animBoolName);
     }
 
-    public virtual void UpdateState() { }
+    public virtual void UpdateState() {    }
 
     public virtual void Enter()
     {
         _endTriggerCalled = false;
         _enemyBase.AnimatorCompo.SetBool(_animBoolHash, true);
     }
-    
+
     public virtual void Exit()
     {
         _enemyBase.AnimatorCompo.SetBool(_animBoolHash, false);
     }
-    
-    public void AnimationTrigger()
+
+    public void AnimationFinishTrigger()
     {
         _endTriggerCalled = true;
     }

@@ -14,16 +14,16 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     private readonly int _requiredEXP = 200;
     private int _currentEXP = 0;
     private int _level = 1;
-    
-    private Transform _playerTrm;
-    private int _currentCoin;
+
+    private Transform _playerTrm = null;
+    private int _currentCoin = 0;
 
     public event Action<int> OnExpChanged;
     public event Action<int> OnLevelChanged;
     public event Action<int> OnCoinChanged;
 
     public List<ModStat> levelUpStats;
-    
+
     public Transform PlayerTrm
     {
         get
@@ -32,9 +32,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
             {
                 _playerTrm = GameObject.FindGameObjectWithTag("Player").transform;
                 if (_playerTrm == null)
-                {
-                    Debug.LogError("Player dose not exist but still try access it.");
-                }
+                    Debug.LogError("Player does not exists but still try access it");
             }
 
             return _playerTrm;
@@ -44,13 +42,11 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     private Player _player;
     public Player Player
     {
-        get
-        {
-            if (_player == null)
+        get {
+            if(_player == null)
             {
                 _player = PlayerTrm.GetComponent<Player>();
             }
-
             return _player;
         }
     }
@@ -58,7 +54,8 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     public void AddExp(int value)
     {
         _currentEXP += value;
-        if (_currentEXP >= _requiredEXP)
+
+        if(_currentEXP >= _requiredEXP)
         {
             _level += 1;
             _currentEXP -= _requiredEXP;
@@ -68,17 +65,18 @@ public class PlayerManager : MonoSingleton<PlayerManager>
         OnExpChanged?.Invoke(_currentEXP);
     }
 
-    private void LevelUpProcess()
-    {
-        AgentStat playerStat = Player.Stat;
-        levelUpStats.ForEach(modStat => playerStat.AddModifier(modStat.type, modStat.value));
-        
-        UIManager.Instance.Open(WindowEnum.LevelUp);
-    }
-
     public void AddCoin(int value)
     {
         _currentCoin += value;
         OnCoinChanged?.Invoke(_currentCoin);
+    }
+
+    private void LevelUpProcess()
+    {
+        AgentStat playerStat = Player.Stat;
+        levelUpStats.ForEach(modStat 
+            => playerStat.AddModifier(modStat.type, modStat.value));
+
+        UIManager.Instance.Open(WindowEnum.LevelUp);
     }
 }

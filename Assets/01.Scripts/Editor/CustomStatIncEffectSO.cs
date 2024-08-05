@@ -1,21 +1,22 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using System;
 
 [CustomEditor(typeof(StatIncEffectSO))]
-public class CustomStatIncEffectSO : CustomPowerUpEffectSO
+public class CustomStatIncEffectSO : CustomPowerEffectSO
 {
     private SerializedProperty targetStatProp;
     private SerializedProperty increaseValueProp;
-    
+
     protected override void OnEnable()
     {
         base.OnEnable();
-        
         targetStatProp = serializedObject.FindProperty("targetStat");
         increaseValueProp = serializedObject.FindProperty("increaseValue");
     }
-    
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -23,15 +24,15 @@ public class CustomStatIncEffectSO : CustomPowerUpEffectSO
         try
         {
             serializedObject.Update();
-            
+
             EditorGUILayout.PropertyField(targetStatProp);
             EditorGUILayout.PropertyField(increaseValueProp);
-            
+
             serializedObject.ApplyModifiedProperties();
         }
-        catch (Exception e)
+        catch(Exception ex)
         {
-            Debug.Log($"exception occur when draw : {e.Message}");
+            Debug.Log($"exception occure when draw : {ex.Message}");
         }
     }
 }

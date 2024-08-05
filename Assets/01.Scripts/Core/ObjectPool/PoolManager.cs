@@ -1,11 +1,14 @@
-using System.Collections.Generic;
 using ObjectPooling;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class PoolManager : MonoSingleton<PoolManager>
 {
-    private Dictionary<PoolingType, Pool<PoolableMono>> _pools
-        = new Dictionary<PoolingType, Pool<PoolableMono>>();
+    private Dictionary<PoolingType, Pool<PoolableMono>> _pools 
+                        = new Dictionary<PoolingType, Pool<PoolableMono>>();
 
     public PoolingTableSO listSO;
 
@@ -23,14 +26,15 @@ public class PoolManager : MonoSingleton<PoolManager>
         _pools.Add(item.prefab.type, pool);
     }
 
+    
     public PoolableMono Pop(PoolingType type)
     {
-        if (_pools.ContainsKey(type) == false)
+        if(_pools.ContainsKey(type) == false)
         {
-            Debug.LogError($"Prefab dose not exist on Pool : {type}");
+            Debug.LogError($"Prefab does not exist on pool : {type.ToString()}");
             return null;
         }
-        
+
         PoolableMono item = _pools[type].Pop();
         item.ResetItem();
         return item;
@@ -39,7 +43,7 @@ public class PoolManager : MonoSingleton<PoolManager>
     public void Push(PoolableMono obj, bool resetParent = false)
     {
         if (resetParent)
-            obj.transform.SetParent(transform);
+            obj.transform.SetParent( transform );
         _pools[obj.type].Push(obj);
     }
 }

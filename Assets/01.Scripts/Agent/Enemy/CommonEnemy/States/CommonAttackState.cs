@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CommonAttackState : EnemyState<CommonStateEnum>
@@ -13,9 +11,9 @@ public class CommonAttackState : EnemyState<CommonStateEnum>
     public override void Enter()
     {
         base.Enter();
-        // ì •ì§€
-        // í”Œë ˆì´ì–´ ìœ„ì¹˜ ë°”ë¼ë³´ê¸°
+        //Á¤ÁöÇÏ°í
         _enemyBase.MovementCompo.StopImmediately();
+        //ÇÃ·¹ÀÌ¾î À§Ä¡¸¦ ¹Ù¶óº¸µµ·Ï È¸ÀüÇÏ°í
         movementCompo.LookToTarget(_enemyBase.targetTrm.position);
     }
 
@@ -24,15 +22,11 @@ public class CommonAttackState : EnemyState<CommonStateEnum>
         _enemyBase.lastAttackTime = Time.time;
         base.Exit();
     }
-    
+
     public override void UpdateState()
     {
         base.UpdateState();
-        // ì¢…ë£Œë¼ë©´
-        // ë‹¤ì‹œ ë°°í‹€ìƒíƒœ
         if (_endTriggerCalled)
-        {
             _stateMachine.ChangeState(CommonStateEnum.Battle);
-        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundState
@@ -12,7 +13,7 @@ public class PlayerIdleState : PlayerGroundState
         _player.PlayerInput.MovementEvent += HandleMovementEvent;
         _player.MovementCompo.StopImmediately();
     }
-    
+
     public override void Exit()
     {
         _player.PlayerInput.MovementEvent -= HandleMovementEvent;
@@ -22,9 +23,10 @@ public class PlayerIdleState : PlayerGroundState
     private void HandleMovementEvent(Vector3 movement)
     {
         float inputThreshold = 0.05f;
-        if (movement.sqrMagnitude > inputThreshold)
+        if(movement.sqrMagnitude > inputThreshold)
         {
             _stateMachine.ChangeState(PlayerStateEnum.Run);
         }
     }
+
 }

@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum ItemType
 {
     Coin,
     Heal,
-    PowerUp,
+    PowerUp
 }
 
 [CreateAssetMenu(menuName = "SO/Item/item")]

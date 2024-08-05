@@ -4,16 +4,16 @@ using UnityEngine;
 
 public abstract class Agent : MonoBehaviour
 {
-    #region Component list section
+    #region component list section
     public Animator AnimatorCompo { get; protected set; }
-    public IMovement MovementCompo { get; protected set; }  
+    public IMovement MovementCompo { get; protected set; }
     public AgentVFX VFXCompo { get; protected set; }
     public DamageCaster DamageCasterCompo { get; protected set; }
     public Health HealthCompo { get; protected set; }
     #endregion
-    
-    [field:SerializeField] public AgentStat Stat {get; protected set;}
-    
+
+    [field:SerializeField] public AgentStat Stat { get; protected set; }
+
     public bool CanStateChangeable { get; protected set; } = true;
     public bool isDead;
 
@@ -25,35 +25,35 @@ public abstract class Agent : MonoBehaviour
         MovementCompo.Initialize(this);
 
         VFXCompo = transform.Find("AgentVFX").GetComponent<AgentVFX>();
-        
+
         Transform damageTrm = transform.Find("DamageCaster");
-        if (damageTrm != null)
+        if(damageTrm != null)
         {
             DamageCasterCompo = damageTrm.GetComponent<DamageCaster>();
             DamageCasterCompo.InitCaster(this);
         }
 
-        Stat = Instantiate(Stat); // ìê¸° ìì‹  ë³µì œë³¸
+        Stat = Instantiate(Stat); //ÀÚ±âÀÚ½Å º¹Á¦º»À¸·Î ¸¸µé°í µé¾î°£´Ù.
         Stat.SetOwner(this);
-        
+
         HealthCompo = GetComponent<Health>();
         HealthCompo.Initialize(this);
     }
-    
-    public Coroutine StartDelayCallback(float time, Action callback)
+
+    public Coroutine StartDelayCallback(float time, Action Callback)
     {
-        return StartCoroutine(DelayCoroutine(time, callback));
+        return StartCoroutine(DelayCoroutine(time, Callback));
     }
 
-    protected IEnumerator DelayCoroutine(float time, Action callback)
+    protected IEnumerator DelayCoroutine(float time, Action Callback)
     {
         yield return new WaitForSeconds(time);
-        callback?.Invoke();
+        Callback?.Invoke();
     }
 
     public virtual void Attack()
     {
-        //ì—¬ê¸°ì„œëŠ” ì•„ë¬´ê²ƒë„ ì•ˆí•¨
+        //¿©±â¼­´Â ¾Æ¹«°Íµµ ¾ÈÇÑ´Ù.
     }
 
     public abstract void SetDead();

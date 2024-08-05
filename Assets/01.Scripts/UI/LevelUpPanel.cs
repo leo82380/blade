@@ -1,5 +1,7 @@
-using System.Linq;
 using DG.Tweening;
+using System;
+using System.Linq;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class LevelUpPanel : MonoBehaviour, IWindowPanel
@@ -14,15 +16,17 @@ public class LevelUpPanel : MonoBehaviour, IWindowPanel
 
     private bool _isTween = false;
 
+
     public void Open()
     {
         if (_isTween) return;
-        
+
         Time.timeScale = 0;
-        SetUpPowerUpCards();
+        SetUpPowerUpCards(); //쓸 수 있는 카드 3장
         _isTween = true;
+        //플레이어 입력 잠궈주고
         PlayerManager.Instance.Player.PlayerInput.SetPlayerInput(false);
-        
+
         _rectTrm.DOAnchorPosY(_bottomYPos, 0.8f)
             .SetEase(Ease.OutBounce)
             .SetUpdate(true)
@@ -33,15 +37,15 @@ public class LevelUpPanel : MonoBehaviour, IWindowPanel
     {
         PowerUpSO[] arr = _powerUpList.list.Where(x => x.CheckCanUpgrade()).ToArray();
 
-        if (arr.Length < 3)
+        if(arr.Length < 3)
         {
-            Debug.LogError("Error! must have 3 item at least");
+            Debug.LogError("error!, must have 3 item at least");
         }
 
-        for (int i = 0; i < 3; i++)
+        for(int i = 0; i < 3; i++)
         {
-            int index = Random.Range(0, arr.Length - i);
-            
+            int index = UnityEngine.Random.Range(0, arr.Length - i);
+
             _cards[i].SetCardData(arr[index]);
             arr[index] = arr[arr.Length - 1 - i];
         }
@@ -50,11 +54,7 @@ public class LevelUpPanel : MonoBehaviour, IWindowPanel
     public void Close()
     {
         if (_isTween) return;
-        
-        Time.timeScale = 1;
         _isTween = true;
-        PlayerManager.Instance.Player.PlayerInput.SetPlayerInput(true);
-
         _rectTrm.DOAnchorPosY(_topYPos, 0.8f)
             .SetEase(Ease.OutSine)
             .SetUpdate(true)
@@ -62,7 +62,8 @@ public class LevelUpPanel : MonoBehaviour, IWindowPanel
             {
                 PlayerManager.Instance.Player.PlayerInput.SetPlayerInput(true);
                 _isTween = false;
-                Time.timeScale = 1;
+                Time.timeScale = 1f;
             });
     }
+
 }

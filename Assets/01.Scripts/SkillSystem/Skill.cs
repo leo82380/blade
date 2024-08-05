@@ -1,18 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void CooldownInfo(float current, float total);
+
 public class Skill : MonoBehaviour
 {
     public bool skillEnabled = false;
-    [SerializeField] protected float _cooldown;
+    [SerializeField] protected float _cooldown; //이 스킬의 쿨타임
     [SerializeField] protected bool _isAutoSkill;
 
     [HideInInspector] public Player player;
     public event CooldownInfo CooldownEvent;
-    
+
     protected float _cooldownTimer;
     public LayerMask whatIsEnemy;
 
@@ -20,11 +18,12 @@ public class Skill : MonoBehaviour
     {
         if (skillEnabled) return;
         skillEnabled = true;
-        if (_isAutoSkill)
+        if(_isAutoSkill)
         {
             SkillManager.Instance.AddEnableSkill(this);
         }
     }
+
     protected virtual void Start()
     {
         player = PlayerManager.Instance.Player;

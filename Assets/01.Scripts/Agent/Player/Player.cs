@@ -6,43 +6,41 @@ public enum RollingDirection
     Mouse,
     Front
 }
-
 public enum PlayerStateEnum
 {
-    Idle,
-    Run,
+    Idle, 
+    Run, 
     Fall,
     Attack,
-    Rolling,
-    Dead
+    Rolling
 }
 
 public class Player : Agent
 {
-    public IDirectMoveable DirectMoveCompo { get; private set; }
+    public IDirectMovable DirectMoveCompo { get; private set; }
+
     [Header("Setting Values")]
     public float moveSpeed = 8f;
     public float dashSpeed = 20f;
     public RollingDirection rollingDirection = RollingDirection.Mouse;
 
-    [Header("Attack Settings")] 
+    [Header("Attack Settings")]
     public float attackSpeed = 1f;
     public int currentComboCounter = 0;
     public float[] attackMovement;
-    
+
     public PlayerStateMachine StateMachine { get; protected set; }
     [SerializeField] private PlayerInput _playerInput;
-    public float fallSpeed;
     public PlayerInput PlayerInput => _playerInput;
     public PlayerVFX PlayerVFXCompo => VFXCompo as PlayerVFX;
 
     protected override void Awake()
     {
         base.Awake();
-        DirectMoveCompo = GetComponent<IDirectMoveable>();
+        DirectMoveCompo = GetComponent<IDirectMovable>();
         StateMachine = new PlayerStateMachine();
 
-        foreach (PlayerStateEnum stateEnum in Enum.GetValues(typeof(PlayerStateEnum)))
+        foreach(PlayerStateEnum stateEnum in Enum.GetValues(typeof(PlayerStateEnum)))
         {
             string typeName = stateEnum.ToString();
 
@@ -50,15 +48,13 @@ public class Player : Agent
             {
                 Type t = Type.GetType($"Player{typeName}State");
                 PlayerState state = Activator.CreateInstance(
-                    t, this, StateMachine, typeName) as PlayerState;
+                                t, this, StateMachine, typeName) as PlayerState;
                 StateMachine.AddState(stateEnum, state);
-            }
-            catch (Exception e)
+            }catch(Exception ex)
             {
                 Debug.LogError($"{typeName} is loading error! check Message");
-                Debug.LogError(e.Message);
+                Debug.LogError(ex.Message);
             }
-
         }
     }
 
@@ -70,11 +66,12 @@ public class Player : Agent
     protected void Update()
     {
         StateMachine.CurrentState.UpdateState();
-        
+
         if (Input.GetKeyDown(KeyCode.O))
         {
             UIManager.Instance.Open(WindowEnum.LevelUp);
         }
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             UIManager.Instance.Close(WindowEnum.LevelUp);
@@ -85,22 +82,19 @@ public class Player : Agent
     {
         bool success = DamageCasterCompo.CastDamage();
 
-        if (success && currentComboCounter == 2)
+        if(success && currentComboCounter == 2)
         {
             SkillManager.Instance.GetSkill<ThunderStrikeSkill>().UseSkill();
         }
     }
 
-
     public void PlayBladeVFX()
     {
         PlayerVFXCompo.PlayBladeVFX(currentComboCounter);
     }
-    
+
     public override void SetDead()
     {
-        // ÏßÄÍ∏àÏùÄ ÏïÑÎ¨¥Í≤ÉÎèÑ ÏïàÌï®
-        StateMachine.ChangeState(PlayerStateEnum.Dead);
+        //¡ˆ±›¿∫ æ∆π´∞Õµµ æ»«’¥œ¥Ÿ.
     }
-    
 }

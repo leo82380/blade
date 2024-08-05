@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace ObjectPooling
@@ -14,12 +13,12 @@ namespace ObjectPooling
 
         private void OnValidate()
         {
-            if (prefab != null)
+            if(prefab != null)
             {
-                if (enumName != prefab.type.ToString())
+                if(enumName != prefab.type.ToString())
                 {
                     prefab = null;
-                    Debug.LogWarning("Type missmatch!");
+                    Debug.LogWarning("Type mismatch!");
                 }
             }
         }

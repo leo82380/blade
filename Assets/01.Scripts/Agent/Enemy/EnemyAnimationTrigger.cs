@@ -3,10 +3,10 @@ using UnityEngine.Events;
 
 public class EnemyAnimationTrigger : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemy;
+    [SerializeField] Enemy _enemy;
 
     public UnityEvent OnAnimationEvent;
-    
+
     private void AnimationEnd()
     {
         _enemy.AnimationEndTrigger();

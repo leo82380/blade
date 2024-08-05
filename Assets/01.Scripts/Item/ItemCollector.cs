@@ -5,9 +5,9 @@ public class ItemCollector : MonoBehaviour
     public float collectRadius;
     [SerializeField] private LayerMask _whatIsItem;
     [SerializeField] private int _collectCount;
-    
+
     private Collider[] _colliders;
-    
+
     private Player _player;
 
     private void Awake()
@@ -21,7 +21,7 @@ public class ItemCollector : MonoBehaviour
         int count = Physics.OverlapSphereNonAlloc(
             transform.position, collectRadius, _colliders, _whatIsItem);
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i <count; i++)
         {
             if (_colliders[i].TryGetComponent(out Item item))
             {
@@ -47,7 +47,7 @@ public class ItemCollector : MonoBehaviour
             case ItemType.PowerUp:
                 break;
         }
-        
+
         _player.PlayerVFXCompo.PlayCollectParticle();
     }
 }

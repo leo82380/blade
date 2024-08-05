@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using ObjectPooling;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -15,22 +13,22 @@ public class LaserTrail : PoolableMono
         _trailRenderer = GetComponent<TrailRenderer>();
     }
 
-    public void DrawTrail(Vector3 start, Vector3 end, float lifeTime)
+    public void DrawTrail(Vector3 start, Vector3 end, float lifetime)
     {
         _trailRenderer.AddPosition(start);
         transform.position = end;
-        
-        _trailRenderer.time = lifeTime;
-        
+
+        _trailRenderer.time = lifetime;
+
         _impactFlare.transform.position = end;
         _impactFlare.Play();
-        
-        StartCoroutine(LifeTimeCoroutine(lifeTime));
+
+        StartCoroutine(LifeTimeCoroutine(lifetime));
     }
 
-    private IEnumerator LifeTimeCoroutine(float lifeTime)
+    private IEnumerator LifeTimeCoroutine(float lifetime)
     {
-        yield return new WaitForSeconds(lifeTime);
+        yield return new WaitForSeconds(lifetime);
         PoolManager.Instance.Push(this);
     }
 

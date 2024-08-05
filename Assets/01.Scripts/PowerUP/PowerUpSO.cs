@@ -16,15 +16,15 @@ public class PowerUpSO : ScriptableObject
 
     public bool CheckCanUpgrade()
     {
-        if (shouldBeUnlock != PlayerSkill.None)
+        if(shouldBeUnlock != PlayerSkill.None)
         {
             Skill skill = SkillManager.Instance.GetSkill(shouldBeUnlock);
             if (skill.skillEnabled == false) return false;
         }
 
-        if (effectList.Any(e => e.CanUpgradeEffect() == false))
+        if(effectList.Any(e => e.CanUpgradeEffect() == false))
             return false;
-        
+
         return true;
     }
 }

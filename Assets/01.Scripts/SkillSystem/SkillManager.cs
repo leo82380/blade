@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public enum PlayerSkill
 {
@@ -10,8 +8,7 @@ public enum PlayerSkill
     CircleOrb = 2,
     Satellite = 3,
     ThunderStrike = 4,
-    Bomb = 5,
-    //ë‹ˆë„¤ê°€ í•œê°œ ë§Œë“¤ê²Œ ëœë‹¤.
+    //´Ï³×°¡ ÇÑ°³ ¸¸µé°Ô µÈ´Ù.
 }
 
 public class SkillManager : MonoSingleton<SkillManager>
@@ -24,7 +21,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         _skills = new Dictionary<Type, Skill>();
         _enableSkillList = new List<Skill>();
 
-        foreach(PlayerSkill skillEnum in Enum.GetValues(typeof(PlayerSkill)))
+        foreach (PlayerSkill skillEnum in Enum.GetValues(typeof(PlayerSkill)))
         {
             if (skillEnum == PlayerSkill.None) continue;
 
@@ -33,7 +30,7 @@ public class SkillManager : MonoSingleton<SkillManager>
             _skills.Add(type, skillCompo);
         }
     }
-    
+
     public void AddEnableSkill(Skill skill)
     {
         _enableSkillList.Add(skill);
@@ -41,7 +38,7 @@ public class SkillManager : MonoSingleton<SkillManager>
 
     private void Update()
     {
-        foreach (Skill skill in _enableSkillList)
+        foreach(Skill skill in _enableSkillList)
         {
             skill.UseSkill();
         }
@@ -54,20 +51,19 @@ public class SkillManager : MonoSingleton<SkillManager>
         {
             return target as T;
         }
-
         return null;
     }
-    
+
     public Skill GetSkill(PlayerSkill skillEnum)
     {
-        Type t = Type.GetType($"{skillEnum.ToString()}Skill"); // ì´ê±´ ë¦¬í”Œë ‰ì…˜
-        if (t == null) return null;
-        
-        if (_skills.TryGetValue(t, out Skill target))
+        Type type = Type.GetType($"{skillEnum.ToString()}Skill"); //ÀÌ°Ç ¸®ÇÃ·º¼Ç
+        if (type == null) return null;
+
+        if (_skills.TryGetValue(type, out Skill target))
         {
             return target;
         }
-
         return null;
     }
+
 }

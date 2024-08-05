@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,31 +14,31 @@ public class UpgradeSkillEffectSO : PowerUpEffectSO
         ByMethod
     }
 
-    
+
     public PlayerSkill targetSkill;
     public SkillUpgradeType upgradeType = SkillUpgradeType.ByField;
-    
+
     public bool isFloat = true;
     public float floatValue;
     public int intValue;
     public int selectFieldIndex;
     public int selectMethodIndex;
     public string callParams;
-    
+
     public List<FieldInfo> fieldList = new List<FieldInfo>();
     public List<MethodInfo> methodList = new List<MethodInfo>();
-    
+
     private MethodInfo canUpgradeMethod;
 
     public object[] methodCallParamArray;
-    
+
     public override void UseEffect()
     {
         if (upgradeType == SkillUpgradeType.ByField)
         {
             FieldUpgrade();
         }
-        else if (upgradeType == SkillUpgradeType.ByMethod)
+        else if(upgradeType == SkillUpgradeType.ByMethod)
         {
             MethodUpgrade();
         }
@@ -47,16 +48,16 @@ public class UpgradeSkillEffectSO : PowerUpEffectSO
     {
         FieldInfo field = fieldList[selectFieldIndex];
         Skill skill = SkillManager.Instance.GetSkill(targetSkill);
-        
-        if (isFloat)
+
+        if(isFloat)
         {
-            float value = (float)field.GetValue(skill);
+            float value = (float)field.GetValue(skill); //ÇØ´ç ½ºÅ³¿¡¼­ ÇØ´ç ÇÊµå°ª
             field.SetValue(skill, value + floatValue);
         }
         else
         {
             int value = (int)field.GetValue(skill);
-            field.SetValue(skill, value + intValue);
+            field.SetValue(skill, intValue + value);
         }
     }
 
@@ -64,7 +65,6 @@ public class UpgradeSkillEffectSO : PowerUpEffectSO
     {
         MethodInfo method = methodList[selectMethodIndex];
         Skill skill = SkillManager.Instance.GetSkill(targetSkill);
-        
         method.Invoke(skill, methodCallParamArray);
     }
 
@@ -72,11 +72,13 @@ public class UpgradeSkillEffectSO : PowerUpEffectSO
     {
         if (upgradeType == SkillUpgradeType.ByField)
             return true;
-        if (upgradeType == SkillUpgradeType.ByMethod)
+
+        if(upgradeType == SkillUpgradeType.ByMethod)
         {
             Skill skill = SkillManager.Instance.GetSkill(targetSkill);
-            return (bool) canUpgradeMethod?.Invoke(skill, null);
+            return (bool)canUpgradeMethod?.Invoke(skill, null);
         }
+
         return false;
     }
 
@@ -90,47 +92,46 @@ public class UpgradeSkillEffectSO : PowerUpEffectSO
         fieldList.Clear();
         methodList.Clear();
 
-        if (targetSkill == 0) return; // íƒ€ê²ŸìŠ¤í‚¬ì´ í™œì„±í™” ë˜ì–´ìžˆì§€ ì•Šìœ¼ë©´ ë¦¬í„´
+        if (targetSkill == 0) return; //Å¸°Ù½ºÅ³ÀÌ ¾ÆÁ÷ È°¼ºÈ­µÇ¾îÀÖÁö ¾Ê´Ù¸é ¸®ÅÏÇØ¶ó.
 
-        Type t = Type.GetType($"{targetSkill}Skill");
+        Type t = Type.GetType($"{targetSkill}Skill"); //½ºÅ³ Å¬·¡½º°¡ °¡Á®¿ÍÁø´Ù.
         FieldInfo[] fields = t.GetFields(BindingFlags.Instance | BindingFlags.Public);
 
-        foreach (FieldInfo f in fields)
+        foreach(FieldInfo f in fields)
         {
-            if (f.FieldType == typeof(int) || f.FieldType == typeof(float))
+            if(f.FieldType == typeof(int) || f.FieldType == typeof(float))
             {
-                fieldList.Add(f); // int, float íƒ€ìž…ì˜ í•„ë“œë§Œ ì¶”ê°€
+                fieldList.Add(f); //int ³ª float º¯¼öÅ¸ÀÔ¸¸ °¡Á®¿Â´Ù.
             }
         }
 
         MethodInfo[] methods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public);
 
-        methodCallParamArray = callParams.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+        // true, 1, "abc"
+        methodCallParamArray = callParams.Split(
+            new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => GetDataFromString(x)).ToArray();
 
-        foreach (MethodInfo m in methods)
+        foreach(MethodInfo m in methods)
         {
             if (m.Name.StartsWith("Upgrade"))
-                methodList.Add(m); // Upgradeë¡œ ì‹œìž‘í•˜ëŠ” ë©”ì†Œë“œë§Œ ì¶”ê°€
+                methodList.Add(m);
         }
+
         
         if (methodList.Count > selectMethodIndex && selectMethodIndex >= 0)
         {
             MethodInfo selectedMethod = methodList[selectMethodIndex];
             if (selectedMethod != null)
-            {
                 canUpgradeMethod = t.GetMethod($"Can{selectedMethod.Name}");
-            }
             else
-            {
-                Debug.LogWarning($"There is no check method fot {selectedMethod.Name}");
-            }
+                Debug.LogWarning($"There is no check method for {selectedMethod.Name}");
         }
         else
         {
             selectMethodIndex = -1;
         }
-        
+
         type = EffectType.SkillUpgrade;
     }
 
@@ -147,7 +148,7 @@ public class UpgradeSkillEffectSO : PowerUpEffectSO
             data = fTemp;
         else
             data = strInput;
-        
+
         return data;
     }
 

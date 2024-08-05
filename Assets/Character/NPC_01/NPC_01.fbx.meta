@@ -14,7 +14,7 @@ ModelImporter:
     second: NPC_01_HURT
   - first:
       74: 2585220689523226874
-    second: NPC_01_IDEL
+    second: NPC_01_IDLE
   - first:
       74: 6368174237158552786
     second: NPC_01_WALK
@@ -92,7 +92,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.98630136
+      - time: 0.96872324
         functionName: AnimationEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -128,7 +128,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.886076
+      - time: 0.92518705
         functionName: AnimationEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -169,7 +169,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: NPC_01_IDEL
+      name: NPC_01_IDLE
       takeName: NPC_01_IDEL
       internalID: 0
       firstFrame: 0
@@ -222,14 +222,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.45433256
+      - time: 0.43391523
         functionName: AnimationEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.90632313
+      - time: 0.8528678
         functionName: AnimationEvent
         data: 
         objectReferenceParameter: {instanceID: 0}

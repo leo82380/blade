@@ -23,7 +23,7 @@ public class ThunderStrikeSkill : Skill
     protected override void Start()
     {
         base.Start();
-        _colliders = new Collider[maxCount]; //ë²¼ë½ì˜ ìµœëŒ€ê°¯ìˆ˜ë§Œ ì ì„ ê°ì§€í•˜ë©´ ë˜ë‹ˆê¹Œ
+        _colliders = new Collider[maxCount]; //º­¶ôÀÇ ÃÖ´ë°¹¼ö¸¸ ÀûÀ» °¨ÁöÇÏ¸é µÇ´Ï±î
         _list = new List<Thunder>();
         UpgradeThunderCount();
     }
@@ -48,8 +48,7 @@ public class ThunderStrikeSkill : Skill
         if (_cooldownTimer > 0 || skillEnabled == false) return false;
 
         int count = CheckEnemy();
-
-        if(count >= 1)
+        if (count >= 1)
         {
             _cooldownTimer = _cooldown;
             StartCoroutine(DelayStrikeCoroutine(count));

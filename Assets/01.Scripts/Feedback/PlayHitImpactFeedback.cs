@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using ObjectPooling;
+using UnityEngine;
 
 public class PlayHitImpactFeedback : Feedback
 {
@@ -9,9 +7,8 @@ public class PlayHitImpactFeedback : Feedback
     public override void CreateFeedback()
     {
         var effect = PoolManager.Instance.Pop(PoolingType.VFX_Hit) as EffectPlayer;
-        
         ActionData actionData = _owner.HealthCompo.actionData;
-        
+
         Quaternion rot = Quaternion.LookRotation(actionData.hitNormal * -1);
         effect.transform.SetPositionAndRotation(actionData.hitPoint, rot);
         effect.StartPlay(_playTime);
@@ -19,5 +16,6 @@ public class PlayHitImpactFeedback : Feedback
 
     public override void FinishFeedback()
     {
+
     }
 }

@@ -1,21 +1,20 @@
 using UnityEngine;
 
-public class AgentMovement : MonoBehaviour, IMovement ,IDirectMoveable
+public class AgentMovement : MonoBehaviour, IMovement, IDirectMovable
 {
-    [SerializeField] private float gravity = -9.8f;
+    [SerializeField] private float _gravity = -9.8f;
 
     protected CharacterController _characterController;
     private Agent _agent;
     private Quaternion _targetRotation;
 
-    #region ì†ë„ ê´€ë ¨ ë¡œì§
+    #region ¼Óµµ °ü·Ã ·ÎÁ÷
     private Vector3 _velocity;
-    
     public Vector3 Velocity => _velocity;
     private float _verticalVelocity;
     private Vector3 _movementInput;
     #endregion
-    
+
     public bool IsGround => _characterController.isGrounded;
 
     public void Initialize(Agent agent)
@@ -26,18 +25,17 @@ public class AgentMovement : MonoBehaviour, IMovement ,IDirectMoveable
 
     private void FixedUpdate()
     {
-        //ì¤‘ë ¥ ê³„ì‚°
+        //Áß·Â °è»ê
         ApplyGravity();
         ApplyRotation();
-        //ì´ë™
+        //ÀÌµ¿
         Move();
     }
 
     private void ApplyRotation()
     {
         float rotateSpeed = 8f;
-        transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, 
-            Time.fixedDeltaTime * rotateSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, _targetRotation, Time.fixedDeltaTime * rotateSpeed);
     }
 
     private void ApplyGravity()
@@ -48,8 +46,7 @@ public class AgentMovement : MonoBehaviour, IMovement ,IDirectMoveable
         }
         else
         {
-            
-            _verticalVelocity += gravity * Time.fixedDeltaTime;
+            _verticalVelocity += _gravity * Time.fixedDeltaTime;
         }
         _velocity.y = _verticalVelocity;
     }
@@ -66,21 +63,21 @@ public class AgentMovement : MonoBehaviour, IMovement ,IDirectMoveable
         if (_velocity.sqrMagnitude > 0 && isRotation == true)
         {
             _targetRotation = Quaternion.LookRotation(_velocity);
-        } 
+        }
     }
-    
+
     public void StopImmediately()
     {
         _velocity = Vector3.zero;
     }
 
-    // public void SetDestination(Vector3 destination)
-    // {
-    //     // í”Œë ˆì´ì–´ëŠ” ì•ˆì”€ (NavMeshê¸°ë°˜)
-    // }
+    //public void SetDestination(Vector3 destination)
+    //{
+    //    //ÇÃ·¹ÀÌ¾î´Â ÀÌ ÇÔ¼ö¸¦ ¾È¾´´Ù. (NavMesh±â¹İ)
+    //}
 
     public void GetKnockback(Vector3 force)
     {
-        // í˜„ì¬ëŠ” ë„‰ë°± êµ¬í˜„ ì•ˆí•¨
+        //ÇöÀç´Â ³Ë¹éÀ» ±¸ÇöÇÏÁö ¾Ê´Â´Ù.
     }
 }

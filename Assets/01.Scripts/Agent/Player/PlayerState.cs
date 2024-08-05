@@ -7,7 +7,7 @@ public abstract class PlayerState
 
     protected int _animBoolHash;
 
-    protected bool _endTriggerCalled; // ì• ë‹ˆë©”ì´ì…˜ ì¢…ë£Œ ì´ë²¤íŠ¸ ë°›ì„ ë•Œ í•„ìš”
+    protected bool _endTriggerCalled; //¾Ö´Ï¸ŞÀÌ¼Ç Á¾·áÀÌº¥Æ® ¹ŞÀ» ¶§ ÇÊ¿ä
 
     public PlayerState(Player player, PlayerStateMachine stateMachine, string boolName)
     {
@@ -15,27 +15,26 @@ public abstract class PlayerState
         _stateMachine = stateMachine;
         _animBoolHash = Animator.StringToHash(boolName);
     }
-    
-    // ë“¤ì–´ì˜¬ ë•Œ í• ì¼
+
+    //µé¾î¿Ã¶§ ÇÒÀÏ
     public virtual void Enter()
     {
         _player.AnimatorCompo.SetBool(_animBoolHash, true);
         _endTriggerCalled = false;
     }
-    // ìˆì„ ë•Œ í• ì¼
+    //ÀÖÀ» ¶§ ÇÒÀÏ
     public virtual void UpdateState()
     {
-        // ìƒì†ë°›ì€ ì• ë“¤ì´ ë§Œë“¬
+        //Áö±İÀº ÇÒ °Ô ¾ø°í. ³ªÁß¿¡ »ó¼Ó¹ŞÀº ¾ÖµéÀÌ ¸¸µé°Å´Ù.
     }
-    // ë‚˜ê°ˆ ë•Œ í• ì¼
+    //³ª°¥¶§ ÇÒÀÏ
     public virtual void Exit()
     {
         _player.AnimatorCompo.SetBool(_animBoolHash, false);
     }
-    
+
     public virtual void AnimationFinishTrigger()
     {
         _endTriggerCalled = true;
     }
-    
 }

@@ -11,7 +11,7 @@ public class PlayerStateMachine
     {
         stateDictionary = new Dictionary<PlayerStateEnum, PlayerState>();
     }
-    
+
     public void Initialize(PlayerStateEnum startState, Player player)
     {
         _player = player;
@@ -22,10 +22,10 @@ public class PlayerStateMachine
     public void ChangeState(PlayerStateEnum newState)
     {
         if (_player.CanStateChangeable == false) return;
-        
-        CurrentState.Exit();
-        CurrentState = stateDictionary[newState];
-        CurrentState.Enter();
+
+        CurrentState.Exit(); //현재 상태를 나가고
+        CurrentState = stateDictionary[newState]; //새로운 상태로 업데이트 하고
+        CurrentState.Enter(); //새로운 상태로 진입한다.
     }
 
     public void AddState(PlayerStateEnum stateEnum, PlayerState state)

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,29 +15,25 @@ public class Stat
         int final = _baseValue;
         foreach (int value in modifiers)
         {
-            _baseValue += value;
+            final += value;
         }
 
         return final;
     }
-    
+
     public void AddModifier(int value)
     {
         if (value != 0)
-        {
             modifiers.Add(value);
-        }
     }
-    
+
     public void RemoveModifier(int value)
     {
         if (value != 0)
-        {
             modifiers.Remove(value);
-        }
     }
-    
-    public void SetDefaultValue(int value)
+
+    public void SetDefalutValue(int value)
     {
         _baseValue = value;
     }

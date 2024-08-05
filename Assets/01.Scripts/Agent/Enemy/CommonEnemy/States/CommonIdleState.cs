@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CommonIdleState : EnemyState<CommonStateEnum>
@@ -12,15 +10,17 @@ public class CommonIdleState : EnemyState<CommonStateEnum>
     {
         base.UpdateState();
         Collider target = _enemyBase.IsPlayerDetected();
-        if (target == null) return; // í”Œë ˆì´ì–´ ë°œê²¬í•˜ì§€ ëª»í•¨
+        if (target == null) return; //ÁÖº¯¿¡ ÇÃ·¹ÀÌ¾î°¡ ¾øÀ¸¸é ¾Æ¹«°Íµµ ¾ÈÇÔ.
         
         Vector3 direction = target.transform.position - _enemyBase.transform.position;
         direction.y = 0;
-        // í”Œë ˆì´ì–´ ë°œê±´ && ì¥ì• ë¬¼ ì—†ìŒ
-        if (_enemyBase.IsObstacleDetected(direction.magnitude, direction.normalized) == false)
+
+        //ÇÃ·¹ÀÌ¾î ¹ß°ßÇß°í ±× »çÀÌ¿¡ Àå¾Ö¹°µµ ¾ø´Ù.
+        if(_enemyBase.IsObstacleInLine(direction.magnitude, direction.normalized) == false)
         {
             _enemyBase.targetTrm = target.transform;
-            _stateMachine.ChangeState(CommonStateEnum.Battle); // ì „íˆ¬ìƒíƒœ
+            _stateMachine.ChangeState(CommonStateEnum.Battle);//ÀüÅõ»óÅÂ·Î ÀüÈ¯
         }
+
     }
 }

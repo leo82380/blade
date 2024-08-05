@@ -1,6 +1,9 @@
-using System.Collections.Generic;
 using DG.Tweening;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class CircleOrbSkill : Skill
 {
@@ -10,7 +13,7 @@ public class CircleOrbSkill : Skill
     public int initOrbCount = 3;
     public float spinTime = 3f;
     public float spinRadius = 1.7f;
-
+    
     [SerializeField] private OrbTrm _orbParent;
     [SerializeField] private int _maxOrbCount = 10;
     [SerializeField] private DamageOrb _orbPrefab;
@@ -21,17 +24,17 @@ public class CircleOrbSkill : Skill
     private List<Vector3> _deltaPositionList;
     private List<DamageOrb> _orbList;
 
-    private bool _skillUsing = false;
+    private bool _skillUsing = false; //Ω∫≈≥ ªÁøÎ¡ﬂ¿Œ∞°?
     private bool _orbReduction = false;
 
     protected override void Start()
     {
         base.Start();
-        
+
         _orbList = new List<DamageOrb>();
         _deltaPositionList = new List<Vector3>();
 
-        for (int i = 0; i < initOrbCount; i++)
+        for(int i = 0; i < initOrbCount; i++)
         {
             UpgradeAddOrb(false);
         }
@@ -43,38 +46,43 @@ public class CircleOrbSkill : Skill
         return currentOrbCount < _maxOrbCount;
     }
 
-    private void CalculateOffset()
-    {
-        float angle = (360f / currentOrbCount) * Mathf.Deg2Rad;
-
-        for (int i = 0; i < currentOrbCount; i++)
-        {
-            float currentAngle = angle * i;
-            Vector3 pos = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle)) * spinRadius;
-            _deltaPositionList[i] = pos;
-        }
-    }
-
-    public void UpgradeAddOrb(bool reCalculate = true)
+    public void UpgradeAddOrb(bool recalculate = true)
     {
         if (currentOrbCount >= _maxOrbCount) return;
-        
+
         DamageOrb orb = Instantiate(_orbPrefab, _orbParent.transform);
         orb.InitializeOrb(this);
         orb.gameObject.SetActive(false);
         _orbList.Add(orb);
         _deltaPositionList.Add(Vector3.zero);
         currentOrbCount++;
-        
-        if (reCalculate)
+
+        if(recalculate)
+        {
             CalculateOffset();
+        }
     }
+
+    private void CalculateOffset()
+    {
+        float angle = (360f / currentOrbCount) * Mathf.Deg2Rad;
+
+        for(int i = 0; i < currentOrbCount; i++)
+        {
+            float currentAngle = angle * i;
+            Vector3 pos = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle))
+                                * spinRadius;
+            _deltaPositionList[i] = pos;
+        }
+    }
+
 
     public override bool UseSkill()
     {
         if (_skillUsing) return false;
+
         if (base.UseSkill() == false) return false;
-        
+
         currentSpinTime = 0;
         _orbReduction = false;
         OrbExpansion();
@@ -85,9 +93,9 @@ public class CircleOrbSkill : Skill
     {
         base.Update();
         if (_skillUsing == false) return;
-        
+
         currentSpinTime += Time.deltaTime;
-        if (currentSpinTime >= spinTime && !_orbReduction)
+        if(currentSpinTime >= spinTime && !_orbReduction)
         {
             _orbReduction = true;
             OrbReduction();
@@ -126,19 +134,19 @@ public class CircleOrbSkill : Skill
 
     private void OrbReduction()
     {
-        // 0.4Ï¥àÍ∞Ñ Î¶¨ÎçïÏÖò
-        // Î¶¨ÎçïÏÖò ÌõÑ Ïä§ÌÇ¨ Ï¢ÖÎ£å
+        //0.4√ ∞£ ∏Æ¥ˆº« µ«µµ∑œ«œ∞Ì
         float duration = 0.4f;
-        _orbParent.SetRotate(false, 0);
-        
+        //¡æ∑·»ƒø°¥¬ EndSkill¿ª »£√‚«ÿº≠ Ω∫≈≥ ¡æ∑·µ«µµ∑œ ∏∏µÂººø‰.
         Sequence seq = DOTween.Sequence();
-        for (int i = 0; i < currentOrbCount; i++)
+        _orbParent.SetRotate(false, 0);
+
+        for(int i = 0; i < currentOrbCount; i++)
         {
             DamageOrb orb = _orbList[i];
             seq.Join(orb.transform.DOLocalMove(Vector3.zero, duration));
-            seq.Join(orb.transform.DOScale(Vector3.one * 0.1f, 0.4f));
+            seq.Join(orb.transform.DOScale(Vector3.one * 0.1f, duration));
         }
-        
+
         seq.OnComplete(() => EndSkill());
     }
 
@@ -146,8 +154,7 @@ public class CircleOrbSkill : Skill
     {
         _orbParent.SetFollow(false);
         _skillUsing = false;
-        
-        for (int i = 0; i < currentOrbCount; i++)
+        for(int i = 0; i < currentOrbCount; i++)
         {
             _orbList[i].gameObject.SetActive(false);
         }

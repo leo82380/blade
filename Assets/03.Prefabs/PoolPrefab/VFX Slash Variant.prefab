@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3923087476356404224
+--- !u!1001 &6847500781872249385
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -16,17 +16,17 @@ PrefabInstance:
     - target: {fileID: 8402108484834998878, guid: b381fb4944264864ea92c1f4d98d4655,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 9.76
       objectReference: {fileID: 0}
     - target: {fileID: 8402108484834998878, guid: b381fb4944264864ea92c1f4d98d4655,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.23
+      value: 2.16
       objectReference: {fileID: 0}
     - target: {fileID: 8402108484834998878, guid: b381fb4944264864ea92c1f4d98d4655,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.94
+      value: 2.27
       objectReference: {fileID: 0}
     - target: {fileID: 8402108484834998878, guid: b381fb4944264864ea92c1f4d98d4655,
         type: 3}
@@ -76,33 +76,33 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8402108484834998865, guid: b381fb4944264864ea92c1f4d98d4655,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3298749778892708886}
+      addedObject: {fileID: 331914009723918173}
   m_SourcePrefab: {fileID: 100100000, guid: b381fb4944264864ea92c1f4d98d4655, type: 3}
---- !u!1 &4822179138639195729 stripped
+--- !u!2083052967 &3142805042362761334 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 8402108484834998879, guid: b381fb4944264864ea92c1f4d98d4655,
+    type: 3}
+  m_PrefabInstance: {fileID: 6847500781872249385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3142805042362761336 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8402108484834998865, guid: b381fb4944264864ea92c1f4d98d4655,
     type: 3}
-  m_PrefabInstance: {fileID: 3923087476356404224}
+  m_PrefabInstance: {fileID: 6847500781872249385}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3298749778892708886
+--- !u!114 &331914009723918173
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4822179138639195729}
+  m_GameObject: {fileID: 3142805042362761336}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 156cfe6741290d74e959da61406546af, type: 3}
+  m_Script: {fileID: 11500000, guid: d3d6a7267ff869e41b649497cd3d4214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
   _particles: []
   _effects:
-  - {fileID: 4822179138639195743}
---- !u!2083052967 &4822179138639195743 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 8402108484834998879, guid: b381fb4944264864ea92c1f4d98d4655,
-    type: 3}
-  m_PrefabInstance: {fileID: 3923087476356404224}
-  m_PrefabAsset: {fileID: 0}
+  - {fileID: 3142805042362761334}

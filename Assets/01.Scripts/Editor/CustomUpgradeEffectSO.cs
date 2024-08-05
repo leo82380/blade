@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(UpgradeSkillEffectSO))]
-public class CustomUpgradeEffectSO : CustomPowerUpEffectSO
+public class CustomUpgradeEffectSO : CustomPowerEffectSO
 {
     private SerializedProperty targetSkillProp;
     private SerializedProperty upgradeTypeProp;
@@ -30,7 +30,7 @@ public class CustomUpgradeEffectSO : CustomPowerUpEffectSO
             EditorGUILayout.PropertyField(targetSkillProp);
             EditorGUILayout.PropertyField(upgradeTypeProp);
 
-            if(targetSkillProp.enumValueIndex == 0)   //ÏÑ†ÌÉùÎêú Ïä§ÌÇ¨Ïù¥ 0Î≤à
+            if(targetSkillProp.enumValueIndex == 0)   //º±≈√µ» Ω∫≈≥¿Ã 0π¯
             {
                 return;
             }
