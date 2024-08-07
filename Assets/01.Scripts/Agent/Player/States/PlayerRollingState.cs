@@ -10,7 +10,7 @@ public class PlayerRollingState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
+        _player.HealthCompo.SetInvincible(true);
         Vector3 movingDirection = GetMovingDirection();
         _player.transform.forward = movingDirection;
 
@@ -43,6 +43,7 @@ public class PlayerRollingState : PlayerState
 
     public override void Exit()
     {
+        _player.HealthCompo.SetInvincible(false);
         base.Exit();
     }
 
@@ -50,7 +51,9 @@ public class PlayerRollingState : PlayerState
     {
         base.UpdateState();
         if (_endTriggerCalled)
+        {
             _stateMachine.ChangeState(PlayerStateEnum.Idle);
+        }
     }
 
 }

@@ -11,12 +11,19 @@ public class Health : MonoBehaviour, IDamageable
 
     private Agent _owner;
     private int _currentHealth;
+    
+    private bool _isInvincible = false;
 
     public void Initialize(Agent agent)
     {
         _owner = agent;
         actionData = new ActionData();
         _currentHealth = _owner.Stat.maxHealth.GetValue(); //ÃÖ´ëÃ¼·ÂÀ¸·Î ¼ÂÆÃ
+    }
+    
+    public void SetInvincible(bool isInvincible)
+    {
+        _isInvincible = isInvincible;
     }
     
     public float GetNormalizedHealth()
@@ -28,6 +35,7 @@ public class Health : MonoBehaviour, IDamageable
     public void ApplyDamage(int damage, Vector3 hitPoint, Vector3 normal, float knockbackPower, Agent dealer, DamageType damageType)
     {
         if (_owner.isDead) return;
+        if (_isInvincible) return;
 
         Vector3 textPosition = hitPoint + new Vector3(0, 1f, 0);
         var popUp = PoolManager.Instance.Pop(PoolingType.PopUpText) as PopUpText;

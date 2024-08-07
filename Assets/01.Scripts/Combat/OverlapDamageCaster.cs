@@ -26,7 +26,7 @@ public class OverlapDamageCaster : DamageCaster
                 int damage = _owner.Stat.GetDamage();
                 float knockbackPower = 3f; // 나중에 스탯에서 뽑기
                 
-                Vector3 dir = target.position - transform.position;
+                Vector3 dir = (target.position + Vector3.up) - transform.position;
                 if (Physics.Raycast(
                         transform.position, dir, out RaycastHit hit, dir.magnitude, targetLayer))
                 {
